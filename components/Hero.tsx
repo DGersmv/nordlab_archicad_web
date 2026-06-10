@@ -29,7 +29,12 @@ export default async function Hero() {
           </Link>
         </div>
       </div>
-      <RuledSurfaceHero />
+      <div>
+        <RuledSurfaceHero />
+        <p className="mt-2 text-center font-mono text-xs text-graphite">
+          {t('heroInteractiveCaption')}
+        </p>
+      </div>
     </section>
   )
 }

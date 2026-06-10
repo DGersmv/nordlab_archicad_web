@@ -2,6 +2,8 @@ import { Link } from '@/i18n/navigation'
 import type { FeatureBlock, Locale } from '@/content/types'
 import { pickLocalized } from '@/lib/locale'
 import PluginCardPreview from './PluginCardPreview'
+import PluginImageCarousel from './PluginImageCarousel'
+import MediaPlaceholder from './MediaPlaceholder'
 import SolutionBadge from './SolutionBadge'
 
 type PluginCardProps = {
@@ -11,16 +13,21 @@ type PluginCardProps = {
 
 export default function PluginCard({ block, locale }: PluginCardProps) {
   const versions = block.compatibility.map((r) => r.version).join(' · ')
-  const preview = block.videos?.[0]
+  const previewVideo = block.videos?.[0]
+  const previewImages = !previewVideo ? block.images : undefined
 
   return (
     <Link
       href={`/plugins/${block.slug}`}
       className="group flex flex-col border border-hairline bg-paper no-underline transition-colors duration-150 hover:border-pen"
     >
-      <div className="flex aspect-video items-center justify-center border-b border-hairline bg-paper">
-        {preview ? (
-          <PluginCardPreview src={preview.src} poster={preview.poster} />
+      <div className="flex aspect-video items-center justify-center overflow-hidden border-b border-hairline bg-paper">
+        {previewVideo ? (
+          <PluginCardPreview src={previewVideo.src} poster={previewVideo.poster} />
+        ) : previewImages?.length ? (
+          <PluginImageCarousel images={previewImages} locale={locale} variant="card" />
+        ) : block.mediaPlaceholder ? (
+          <MediaPlaceholder text={block.mediaPlaceholder} locale={locale} variant="card" />
         ) : (
           <span className="font-mono text-xs text-graphite">[CONTENT: poster]</span>
         )}

@@ -10,6 +10,7 @@ export type SolutionId =
   | 'shellset'
   | 'tableset'
   | 'landscape-helper'
+  | 'gh-dimensioning'
 
 export interface CompatRow {
   version: string
@@ -30,6 +31,11 @@ export interface PluginVideo {
   caption?: LocalizedText
 }
 
+export interface PluginImage {
+  src: string
+  alt?: LocalizedText
+}
+
 /** Functional block in the catalog (one workflow / tool). */
 export interface FeatureBlock {
   order: number
@@ -41,6 +47,14 @@ export interface FeatureBlock {
   compatibility: CompatRow[]
   /** Demo clips; first item is the catalog card preview. */
   videos?: PluginVideo[]
+  /** Still previews; cycles on the plugin page and catalog card when no video. */
+  images?: PluginImage[]
+  /** Shown when no videos or images are available yet. */
+  mediaPlaceholder?: LocalizedText
+  download?: {
+    url: string
+    label: LocalizedText
+  }
 }
 
 /** @deprecated Alias — routes still use /plugins/[slug] */

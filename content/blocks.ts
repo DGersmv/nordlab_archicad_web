@@ -68,6 +68,15 @@ export const featureBlocks: FeatureBlock[] = [
     },
     solutions: ['landscape-helper'],
     compatibility: pluginCompatibility,
+    videos: [
+      {
+        src: '/media/mesh-from-line/preview.mp4',
+        caption: {
+          en: 'Create a Mesh strip from a base line, optionally draped on terrain',
+          ru: 'Mesh из базовой линии с опциональной привязкой к рельефу',
+        },
+      },
+    ],
   },
   {
     order: 3,
@@ -96,43 +105,63 @@ export const featureBlocks: FeatureBlock[] = [
     },
     solutions: ['gdl-to-mesh'],
     compatibility: pluginCompatibility,
+    mediaPlaceholder: {
+      en: 'Content coming soon',
+      ru: 'Контент будет позже',
+    },
   },
   {
     order: 4,
-    slug: 'contours',
+    slug: 'parametric-dimensioning',
     name: {
-      en: 'Contours along a path',
-      ru: 'Контуры по линии',
+      en: 'Parametric Dimensioning via Point Export (GH → Archicad)',
+      ru: 'Параметрическое образмеривание через экспорт точек (GH → Archicad)',
     },
     tagline: {
-      en: 'Parallel contour lines along a base path — for paths, edges, and zones.',
-      ru: 'Параллельные контурные линии вдоль трассы — дорожки, границы, зоны.',
+      en: 'Bridge between Grasshopper and Archicad for automated dimensioning.',
+      ru: 'Мост между Grasshopper и Archicad для автоматической простановки размеров.',
     },
     whatItDoes: {
       en: [
-        'Offset width from the axis; spline sampling step when needed',
-        'Left and right contour with end caps on open paths',
-        'Line, Polyline, Arc, Circle, Spline',
-        '2D contour output; for 3D Shell see ShellSet',
+        'Grasshopper computes parametric point sets — along curves with a fixed step, from ordered 3D sequences, or anchor-to-target references',
+        'Point data sent via lightweight JSON to a companion Archicad add-on',
+        'Archicad add-on generates native dimension chains',
+        'Update the GH definition — all connected dimensions regenerate',
+        'Free; Archicad 27–29',
       ],
       ru: [
-        'Ширина от оси; для сплайна — шаг дискретизации',
-        'Левый и правый контур с замыканием на открытых линиях',
-        'Line, Polyline, Arc, Circle, Spline',
-        'Контуры — 2D-линии; для 3D Shell см. ShellSet',
+        'Grasshopper считает параметрические наборы точек — вдоль кривых с шагом, из упорядоченных 3D-последовательностей или от опорных к целевым',
+        'Передача точек по JSON в add-on Archicad',
+        'Построение нативных размерных цепочек в Archicad',
+        'Обновил GH-определение — связанные размеры перестраиваются',
+        'Бесплатно; Archicad 27–29',
       ],
     },
-    solutions: ['landscape-helper'],
+    solutions: ['gh-dimensioning'],
     compatibility: pluginCompatibility,
-    videos: [
+    images: [
       {
-        src: '/media/Contours/Create-contours/preview.mp4',
-        caption: {
-          en: 'Parallel contours along a path',
-          ru: 'Параллельные контуры вдоль трассы',
+        src: '/media/gh-dimensioning/3.png',
+        alt: {
+          en: 'Grasshopper point export for parametric dimensioning',
+          ru: 'Экспорт точек из Grasshopper для параметрического образмеривания',
+        },
+      },
+      {
+        src: '/media/gh-dimensioning/22.png',
+        alt: {
+          en: 'Dimension chains generated in Archicad from GH data',
+          ru: 'Размерные цепочки в Archicad по данным из GH',
         },
       },
     ],
+    download: {
+      url: 'https://www.food4rhino.com/en/app/parametric-dimensioning-point-export-gh-archicad',
+      label: {
+        en: 'Download on Food4Rhino',
+        ru: 'Скачать на Food4Rhino',
+      },
+    },
   },
   {
     order: 5,
@@ -161,6 +190,15 @@ export const featureBlocks: FeatureBlock[] = [
     },
     solutions: ['shellset'],
     compatibility: pluginCompatibility,
+    videos: [
+      {
+        src: '/media/shellset/preview.mp4',
+        caption: {
+          en: 'XZ profile splines and Shell along a path on topo Mesh',
+          ru: 'Spline XZ и Shell по трассе на топографическом Mesh',
+        },
+      },
+    ],
   },
   {
     order: 6,
@@ -178,12 +216,16 @@ export const featureBlocks: FeatureBlock[] = [
         'Live-updating table when selection changes',
         'Type, ID, layer, and count per group',
         'Checkbox filter and apply-selection to checked groups',
+        'Choose which columns and parameters to show in the table',
+        'Export the table to Excel (.xlsx)',
         'Available in TableSet palette and LandscapeHelper',
       ],
       ru: [
         'Таблица обновляется при изменении выделения',
         'Тип, ID, слой и количество в группе',
         'Фильтр чекбоксами и выделение отмеченных групп',
+        'Выбор нужных столбцов и параметров для отображения',
+        'Экспорт таблицы в Excel (.xlsx)',
         'В TableSet — отдельная палитра; в LandscapeHelper — часть основной',
       ],
     },
@@ -191,10 +233,10 @@ export const featureBlocks: FeatureBlock[] = [
     compatibility: pluginCompatibility,
     videos: [
       {
-        src: '/media/Selection/View-selected-elements/preview.mp4',
+        src: '/media/tableset/preview.mp4',
         caption: {
-          en: 'View selected elements by type, ID, and layer',
-          ru: 'Просмотр выбранных элементов по типу, ID и слою',
+          en: 'Selection table — group, filter, and re-select by type, ID, and layer',
+          ru: 'Таблица выделения — группировка, фильтр и повторное выделение',
         },
       },
     ],
@@ -412,6 +454,15 @@ export const featureBlocks: FeatureBlock[] = [
     },
     solutions: ['landscape-helper'],
     compatibility: pluginCompatibility,
+    videos: [
+      {
+        src: '/media/beams/preview.mp4',
+        caption: {
+          en: 'Align beams to a 3D Mesh surface and rotate by angle',
+          ru: 'Выравнивание балок по 3D-сетке и поворот на заданный угол',
+        },
+      },
+    ],
   },
 ]
 

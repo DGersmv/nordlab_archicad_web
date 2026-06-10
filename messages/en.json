@@ -14,6 +14,7 @@
   "home": {
     "heroTitle": "Archicad tools that work on real projects",
     "heroSubtitle": "Add-ons for terrain import, landscape automation, shells on topo, and model data — built by a practicing architect and Registered API Developer.",
+    "heroInteractiveCaption": "Points are draggable",
     "browsePlugins": "Browse plugins",
     "customDev": "Custom development",
     "catalogTitle": "Plugins",

@@ -59,6 +59,11 @@ export const solutions: Record<SolutionId, SolutionMeta> = {
       },
     ],
   },
+  'gh-dimensioning': {
+    id: 'gh-dimensioning',
+    name: 'GH Point Export',
+    changelog: [],
+  },
 }
 
 export function getSolution(id: SolutionId): SolutionMeta {

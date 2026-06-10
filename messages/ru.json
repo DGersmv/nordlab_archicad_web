@@ -14,6 +14,7 @@
   "home": {
     "heroTitle": "Инструменты Archicad для реальных проектов",
     "heroSubtitle": "Аддоны для импорта рельефа, ландшафта, оболочек на топографии и работы с данными модели — от практикующего архитектора и Registered API Developer.",
+    "heroInteractiveCaption": "Точки можно двигать",
     "browsePlugins": "Смотреть плагины",
     "customDev": "Разработка на заказ",
     "catalogTitle": "Плагины",
