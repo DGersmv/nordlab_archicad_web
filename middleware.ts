@@ -1,8 +1,12 @@
 import createMiddleware from 'next-intl/middleware'
 import { type NextRequest, NextResponse } from 'next/server'
-import { routing } from './i18n/routing'
 
-const handleI18nRouting = createMiddleware(routing)
+const handleI18nRouting = createMiddleware({
+  locales: ['en', 'ru'],
+  defaultLocale: 'en',
+  localePrefix: 'as-needed',
+  localeDetection: false,
+})
 
 // Vercel geo headers (e.g. cf-ipcity with accented names) can be forwarded as
 // x-middleware-request-* response headers. Non-ASCII values break Edge middleware.
@@ -22,5 +26,5 @@ export default function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: '/((?!api|_next|_vercel|.*\\..*).*)',
+  matcher: ['/', '/(ru|en)/:path*'],
 }
