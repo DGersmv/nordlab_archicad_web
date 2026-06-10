@@ -1,5 +1,6 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import ContactCTA from '@/components/ContactCTA'
+import CustomContactForm from '@/components/CustomContactForm'
 import DimensionRule from '@/components/DimensionRule'
 import type { Locale } from '@/content/types'
 
@@ -29,8 +30,8 @@ export default async function CustomPage({ params: { locale } }: Props) {
         ))}
       </ul>
 
-      <div className="mt-12 flex aspect-video max-w-4xl items-center justify-center border border-dashed border-hairline font-mono text-sm text-graphite">
-        [CONTENT: custom development cases]
+      <div className="mt-12">
+        <CustomContactForm />
       </div>
 
       <div className="mt-16 max-w-3xl">

@@ -47,7 +47,31 @@
       "Discovery on your real project files",
       "API Development Kit, C++ add-ons and palettes",
       "Delivery with docs, installer, and support window"
-    ]
+    ],
+    "form": {
+      "title": "Start a project",
+      "lead": "Describe your workflow or attach sample files. We reply within 1–2 business days.",
+      "nameLabel": "Name / bureau",
+      "contactLabel": "Contact",
+      "contactPlaceholder": "Email or Telegram",
+      "taskLabel": "Task description",
+      "fileLabel": "Attachment (optional)",
+      "fileHint": "PDF, DOCX, or screenshots — up to 50 MB",
+      "submit": "Send inquiry",
+      "submitting": "Sending…",
+      "success": "Message sent. We'll be in touch soon.",
+      "errors": {
+        "validation": "Please fill in all required fields.",
+        "file_size": "File exceeds the 50 MB limit.",
+        "file_type": "Unsupported file type.",
+        "turnstile": "Verification failed. Please try again.",
+        "rate_limit": "Too many requests. Please wait a moment.",
+        "not_configured": "The contact form is not set up on this server yet. Please use email or Telegram instead.",
+        "smtp_failed": "Could not send your message by email. Please try email or Telegram directly.",
+        "telegram_failed": "Could not deliver your message. Please try email or Telegram directly.",
+        "server": "Something went wrong. Try email or Telegram instead."
+      }
+    }
   },
   "about": {
     "title": "About",
