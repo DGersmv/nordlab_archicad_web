@@ -1,53 +1,67 @@
-import createMiddleware from 'next-intl/middleware'
 import { NextRequest, NextResponse } from 'next/server'
 
-const handleI18nRouting = createMiddleware({
-  locales: ['en', 'ru'],
-  defaultLocale: 'en',
-  localePrefix: 'as-needed',
-  localeDetection: false,
-})
+const HEADER_LOCALE_NAME = 'X-NEXT-INTL-LOCALE'
+const locales = ['en', 'ru'] as const
+const defaultLocale = 'en'
+
+type Locale = (typeof locales)[number]
+
+function isLocale(value: string): value is Locale {
+  return locales.includes(value as Locale)
+}
 
 function hasNonAscii(value: string) {
   return /[^\x00-\x7F]/.test(value)
 }
 
-function sanitizeRequest(request: NextRequest) {
-  const headers = new Headers(request.headers)
-  let changed = false
-
-  request.headers.forEach((value, key) => {
-    if (hasNonAscii(value)) {
-      headers.delete(key)
-      changed = true
-    }
-  })
-
-  return changed ? new NextRequest(request.url, { headers }) : request
-}
-
-// Vercel copies request headers onto x-middleware-request-* response headers.
-// Non-ASCII geo values (e.g. cf-ipcity: Montréal) crash Edge middleware on Vercel.
-function sanitizeResponse(response: NextResponse) {
+function sanitizeHeaders(headers: Headers) {
   const keysToDelete: string[] = []
-  response.headers.forEach((value, key) => {
+  headers.forEach((value, key) => {
     if (hasNonAscii(value)) {
       keysToDelete.push(key)
     }
   })
-  keysToDelete.forEach((key) => response.headers.delete(key))
-  return response
+  keysToDelete.forEach((key) => headers.delete(key))
+}
+
+function withSanitizedRequest(request: NextRequest) {
+  const headers = new Headers(request.headers)
+  sanitizeHeaders(headers)
+  return headers
 }
 
 export default function middleware(request: NextRequest) {
-  const response = handleI18nRouting(sanitizeRequest(request))
-  return sanitizeResponse(response)
+  const requestHeaders = withSanitizedRequest(request)
+  const { pathname } = request.nextUrl
+  const segment = pathname.split('/')[1]
+
+  if (isLocale(segment)) {
+    if (segment === defaultLocale) {
+      const stripped =
+        pathname === `/${defaultLocale}`
+          ? '/'
+          : pathname.slice(`/${defaultLocale}`.length) || '/'
+      const url = request.nextUrl.clone()
+      url.pathname = stripped
+      const response = NextResponse.redirect(url)
+      sanitizeHeaders(response.headers)
+      return response
+    }
+
+    requestHeaders.set(HEADER_LOCALE_NAME, segment)
+    const response = NextResponse.next({ request: { headers: requestHeaders } })
+    sanitizeHeaders(response.headers)
+    return response
+  }
+
+  const url = request.nextUrl.clone()
+  url.pathname = pathname === '/' ? `/${defaultLocale}` : `/${defaultLocale}${pathname}`
+  requestHeaders.set(HEADER_LOCALE_NAME, defaultLocale)
+  const response = NextResponse.rewrite(url, { request: { headers: requestHeaders } })
+  sanitizeHeaders(response.headers)
+  return response
 }
 
 export const config = {
-  matcher: [
-    '/',
-    '/(ru|en)/:path*',
-    '/((?!api|_next|_vercel|.*\\..*).*)',
-  ],
+  matcher: ['/((?!api|_next|_vercel|.*\\..*).*)'],
 }
