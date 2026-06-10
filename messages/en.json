@@ -1,0 +1,76 @@
+{
+  "meta": {
+    "siteName": "Nordlab",
+    "siteDescription": "Archicad add-ons for terrain, landscape, shells, and BIM workflows."
+  },
+  "nav": {
+    "plugins": "Plugins",
+    "manufacturers": "For manufacturers",
+    "custom": "Custom development",
+    "about": "About",
+    "changelog": "Changelog",
+    "contact": "Contact"
+  },
+  "home": {
+    "heroTitle": "Archicad tools that work on real projects",
+    "heroSubtitle": "Add-ons for terrain import, landscape automation, shells on topo, and model data — built by a practicing architect and Registered API Developer.",
+    "browsePlugins": "Browse plugins",
+    "customDev": "Custom development",
+    "catalogTitle": "Plugins",
+    "catalogLead": "11 functional blocks — terrain, landscape, shells, markup, and BIM data. Each links to its product package.",
+    "whoTitle": "Who builds this",
+    "whoLead": "Practicing architect. Registered Graphisoft API Developer. Tools born from daily Archicad work — not concept demos.",
+    "contactTitle": "Get in touch"
+  },
+  "plugin": {
+    "whatItDoes": "What it does",
+    "compatibility": "Compatibility",
+    "changelog": "Changelog",
+    "windows": "Windows",
+    "mac": "macOS",
+    "version": "Archicad"
+  },
+  "manufacturers": {
+    "title": "GDL libraries for manufacturers",
+    "lead": "Turn your product catalog into Archicad-ready GDL objects — parametric, documented, and maintainable across AC versions.",
+    "bullets": [
+      "Parametric GDL from your CAD or product data",
+      "Versioning and update workflow for your sales team",
+      "Compatibility testing on target Archicad releases"
+    ]
+  },
+  "custom": {
+    "title": "Custom Archicad development",
+    "lead": "Need a workflow that does not exist yet? Add-ons, palettes, and automation tailored to your bureau or product line.",
+    "bullets": [
+      "Discovery on your real project files",
+      "API Development Kit, C++ add-ons and palettes",
+      "Delivery with docs, installer, and support window"
+    ]
+  },
+  "about": {
+    "title": "About",
+    "lead": "Nordlab — independent Archicad development by a practicing architect.",
+    "body": "I design and build add-ons used on live projects: terrain from DWG, landscape distribution, shells on mesh, selection tables, and batch ID workflows. Registered Graphisoft API Developer. Archicad 27–29, Windows.",
+    "status": "Registered Graphisoft API Developer"
+  },
+  "changelog": {
+    "title": "Changelog",
+    "lead": "Updates across all Nordlab plugins."
+  },
+  "contact": {
+    "email": "Email",
+    "telegram": "Telegram",
+    "cta": "Contact",
+    "ctaLead": "Questions, quotes, or a demo on your files."
+  },
+  "footer": {
+    "tagline": "Archicad add-ons & custom development",
+    "developer": "Registered Graphisoft API Developer",
+    "rights": "Graphisoft, Archicad, and GDL are trademarks of Graphisoft SE."
+  },
+  "compat": {
+    "yes": "Yes",
+    "no": "—"
+  }
+}

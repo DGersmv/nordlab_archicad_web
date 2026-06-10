@@ -1,0 +1,76 @@
+{
+  "meta": {
+    "siteName": "Nordlab",
+    "siteDescription": "Аддоны для Archicad: рельеф, ландшафт, оболочки и BIM-данные."
+  },
+  "nav": {
+    "plugins": "Плагины",
+    "manufacturers": "Производителям",
+    "custom": "Разработка на заказ",
+    "about": "О проекте",
+    "changelog": "Changelog",
+    "contact": "Контакт"
+  },
+  "home": {
+    "heroTitle": "Инструменты Archicad для реальных проектов",
+    "heroSubtitle": "Аддоны для импорта рельефа, ландшафта, оболочек на топографии и работы с данными модели — от практикующего архитектора и Registered API Developer.",
+    "browsePlugins": "Смотреть плагины",
+    "customDev": "Разработка на заказ",
+    "catalogTitle": "Плагины",
+    "catalogLead": "11 функциональных блоков — рельеф, ландшафт, оболочки, разметка и BIM-данные. У каждого указан продуктовый пакет.",
+    "whoTitle": "Кто это делает",
+    "whoLead": "Практикующий архитектор. Registered Graphisoft API Developer. Инструменты из ежедневной работы в Archicad — не концепт-демо.",
+    "contactTitle": "Связаться"
+  },
+  "plugin": {
+    "whatItDoes": "Что делает",
+    "compatibility": "Совместимость",
+    "changelog": "Changelog",
+    "windows": "Windows",
+    "mac": "macOS",
+    "version": "Archicad"
+  },
+  "manufacturers": {
+    "title": "GDL-библиотеки для производителей",
+    "lead": "Превратите каталог продукции в GDL-объекты для Archicad — параметрические, документированные и поддерживаемые между версиями AC.",
+    "bullets": [
+      "Параметрический GDL из ваших CAD- или продуктовых данных",
+      "Версионирование и обновления для отдела продаж",
+      "Тестирование совместимости на целевых релизах Archicad"
+    ]
+  },
+  "custom": {
+    "title": "Кастомная разработка для Archicad",
+    "lead": "Нужен workflow, которого ещё нет? Аддоны, палитры и автоматизация под ваше бюро или продуктовую линейку.",
+    "bullets": [
+      "Разбор на ваших реальных файлах проекта",
+      "API Development Kit, C++ аддоны и палитры",
+      "Поставка с документацией, установщиком и окном поддержки"
+    ]
+  },
+  "about": {
+    "title": "О проекте",
+    "lead": "Nordlab — независимая разработка для Archicad от практикующего архитектора.",
+    "body": "Проектирую и собираю аддоны для живых проектов: рельеф из DWG, распределение на ландшафте, оболочки по mesh, таблицы выделения и пакетное переименование ID. Registered Graphisoft API Developer. Archicad 27–29, Windows.",
+    "status": "Registered Graphisoft API Developer"
+  },
+  "changelog": {
+    "title": "Changelog",
+    "lead": "Обновления по всем плагинам Nordlab."
+  },
+  "contact": {
+    "email": "Email",
+    "telegram": "Telegram",
+    "cta": "Связаться",
+    "ctaLead": "Вопросы, расчёт стоимости или демо на ваших файлах."
+  },
+  "footer": {
+    "tagline": "Аддоны и разработка для Archicad",
+    "developer": "Registered Graphisoft API Developer",
+    "rights": "Graphisoft, Archicad и GDL — товарные знаки Graphisoft SE."
+  },
+  "compat": {
+    "yes": "Да",
+    "no": "—"
+  }
+}

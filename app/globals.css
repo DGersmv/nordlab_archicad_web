@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --paper: #fcfbf7;
+  --ink: #1b1d1f;
+  --graphite: #6b7075;
+  --hairline: #d9d7d0;
+  --pen: #2547c8;
+  --marker: #18a06a;
+}
+
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply bg-paper font-sans text-base font-normal leading-relaxed text-ink antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-semibold tracking-tight;
+    letter-spacing: -0.02em;
+  }
+
+  a {
+    @apply text-pen transition-colors duration-150;
+  }
+
+  a:hover {
+    @apply underline;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-pen;
+  }
+}
+
+@layer utilities {
+  .text-display-xl {
+    @apply text-[44px] leading-[1.1] md:text-[64px];
+  }
+
+  .text-display {
+    @apply text-[28px] leading-[1.2] md:text-[44px];
+  }
+
+  .text-lead {
+    @apply text-[20px] leading-snug;
+  }
+
+  .site-container {
+    @apply mx-auto w-full max-w-site px-5 md:px-8;
+  }
+
+  .reveal {
+    @apply translate-y-2 opacity-0 transition-all duration-300 ease-out;
+  }
+
+  .reveal.is-visible {
+    @apply translate-y-0 opacity-100;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal {
+    @apply translate-y-0 opacity-100 transition-none;
+  }
+}
