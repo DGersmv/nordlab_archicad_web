@@ -2,7 +2,7 @@ export default function RuledSurfaceFallback() {
   return (
     <svg
       viewBox="0 0 400 280"
-      className="h-full w-full"
+      className="h-full w-full max-h-[320px]"
       role="img"
       aria-label="Ruled surface diagram"
     >

@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react'
 import * as THREE from 'three'
 
 const RULING_COUNT = 40
+const MAX_CANVAS_PX = 2048
 
 function cubicBezier(t: number, p0: number, p1: number, p2: number, p3: number) {
   const u = 1 - t
@@ -26,7 +27,11 @@ export default function RuledSurfaceCanvas() {
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false })
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-    mount.appendChild(renderer.domElement)
+    const canvasEl = renderer.domElement
+    canvasEl.style.display = 'block'
+    canvasEl.style.width = '100%'
+    canvasEl.style.height = '100%'
+    mount.appendChild(canvasEl)
 
     const railA = {
       p0: new THREE.Vector3(-1.6, -0.35, 0),
@@ -123,10 +128,12 @@ export default function RuledSurfaceCanvas() {
       const el = containerRef.current
       if (!el) return
       const { width, height } = el.getBoundingClientRect()
-      if (width === 0 || height === 0) return
-      camera.aspect = width / height
+      const w = Math.min(Math.floor(width), MAX_CANVAS_PX)
+      const h = Math.min(Math.floor(height), MAX_CANVAS_PX)
+      if (w < 1 || h < 1) return
+      camera.aspect = w / h
       camera.updateProjectionMatrix()
-      renderer.setSize(width, height, false)
+      renderer.setSize(w, h, false)
     }
 
     resize()
@@ -194,5 +201,5 @@ export default function RuledSurfaceCanvas() {
     }
   }, [])
 
-  return <div ref={containerRef} className="h-full min-h-[240px] w-full md:min-h-[320px]" />
+  return <div ref={containerRef} className="h-[240px] w-full overflow-hidden md:h-[320px]" />
 }
