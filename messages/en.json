@@ -43,6 +43,8 @@
     "title": "Buy Nordlab plugins",
     "lead": "Choose the plugin you need, send a short request, and we'll reply with pricing, licensing details, or installation help for the current Nordlab add-on lineup.",
     "primaryCta": "Send request",
+    "payCta": "Pay by card",
+    "paySelect": "Pay now",
     "secondaryCta": "Open activation flow",
     "freeBadge": "Free",
     "manualBadge": "Quote",
@@ -100,6 +102,50 @@
         "telegram_failed": "Could not deliver your request. Please use email or Telegram directly.",
         "server": "Something went wrong. Please try again or contact us directly."
       }
+    },
+    "pay": {
+      "title": "Card payment",
+      "lead": "Pay via Robokassa. After a successful payment, your license key will be sent by email.",
+      "pluginLabel": "Plugin",
+      "machineLabel": "Machine ID",
+      "machinePlaceholder": "OM1-XXXX-XXXX-XXXX",
+      "machineHint": "Copy the Machine ID from the plugin palette in Archicad.",
+      "emailLabel": "Email for license key",
+      "emailHint": "We will send the license key to this address after payment.",
+      "total": "Total",
+      "submit": "Proceed to payment",
+      "submitting": "Redirecting…",
+      "manualFallback": "Need an invoice or another payment method?",
+      "manualLink": "Contact us",
+      "errors": {
+        "validation": "Choose a plugin, enter Machine ID, and a valid email.",
+        "not_configured": "Payments are not configured on this server yet. Please use email or Telegram.",
+        "server": "Could not start checkout. Please try again."
+      }
+    }
+  },
+  "payment": {
+    "success": {
+      "metaTitle": "Payment successful",
+      "eyebrow": "Payment",
+      "title": "Thank you for your purchase",
+      "lead": "Payment received. Your license key has been sent to your email.",
+      "orderLabel": "Order number",
+      "steps": [
+        "Check your inbox — the email may take 1–2 minutes.",
+        "Download the trial build if you have not installed the plugin yet.",
+        "Open the plugin palette in Archicad and paste the key into the activation field."
+      ],
+      "downloadCta": "Download plugin",
+      "shopCta": "Back to shop"
+    },
+    "fail": {
+      "metaTitle": "Payment failed",
+      "eyebrow": "Payment",
+      "title": "Payment not completed",
+      "lead": "The payment was cancelled or failed. No charge was made — you can try again.",
+      "retryCta": "Try again",
+      "helpCta": "Get help"
     }
   },
   "activate": {

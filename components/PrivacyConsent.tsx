@@ -3,8 +3,14 @@
 import { Link } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
 
-export default function PrivacyConsent() {
+type PrivacyConsentProps = {
+  checked?: boolean
+  onChange?: (checked: boolean) => void
+}
+
+export default function PrivacyConsent({ checked, onChange }: PrivacyConsentProps = {}) {
   const t = useTranslations('consent')
+  const isControlled = typeof checked === 'boolean' && typeof onChange === 'function'
 
   return (
     <label className="flex items-start gap-3 text-sm text-graphite">
@@ -12,7 +18,15 @@ export default function PrivacyConsent() {
         type="checkbox"
         name="privacyConsent"
         value="yes"
-        required
+        required={!isControlled}
+        checked={isControlled ? checked : undefined}
+        onChange={
+          isControlled
+            ? (event) => {
+                onChange(event.target.checked)
+              }
+            : undefined
+        }
         className="mt-1 h-4 w-4 shrink-0 accent-pen"
       />
       <span>

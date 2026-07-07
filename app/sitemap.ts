@@ -8,6 +8,8 @@ const staticPaths = [
   '',
   '/activate',
   '/shop',
+  '/payment/success',
+  '/payment/fail',
   '/download',
   '/for-manufacturers',
   '/custom',

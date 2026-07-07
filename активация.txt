@@ -1,0 +1,4 @@
+cd D:\nordlab
+npm run license:generate -- openingmaster OM1-E0C6-7737-78EA
+npm run license:generate -- tableset TS1-XXXX-XXXX-XXXX
+npm run license:generate -- meshmaster MM1-XXXX-XXXX-Xns2.systemdns.com

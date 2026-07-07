@@ -2,12 +2,14 @@ import type { Metadata } from 'next'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import DimensionRule from '@/components/DimensionRule'
 import PluginPurchaseForm from '@/components/PluginPurchaseForm'
+import RobokassaPayForm from '@/components/RobokassaPayForm'
 import ContactCTA from '@/components/ContactCTA'
 import { getFeatureBlocks } from '@/content/plugins'
 import { company } from '@/content/company'
 import type { Locale } from '@/content/types'
 import { Link, getPathname } from '@/i18n/navigation'
 import { pickLocalized } from '@/lib/locale'
+import { isRobokassaConfigured } from '@/lib/robokassa'
 
 type Props = {
   params: { locale: Locale }
@@ -43,6 +45,12 @@ export default async function ShopPage({ params: { locale }, searchParams }: Pro
   const highlights = t.raw('highlights') as string[]
   const trustPoints = t.raw('trustPoints') as string[]
   const machineId = searchParams?.machineId?.trim()
+  const robokassaReady = isRobokassaConfigured()
+  const payPlugins = plugins.map((plugin) => ({
+    slug: plugin.slug,
+    name: plugin.name,
+    priceRub: plugin.price.rub,
+  }))
 
   return (
     <div className="site-container py-12 md:py-16">
@@ -52,10 +60,10 @@ export default async function ShopPage({ params: { locale }, searchParams }: Pro
         <p className="mt-4 max-w-3xl text-lead text-graphite">{t('lead')}</p>
         <div className="mt-8 flex flex-wrap gap-3">
           <a
-            href="#order-form"
+            href={robokassaReady ? '#pay-form' : '#order-form'}
             className="inline-flex items-center bg-pen px-6 py-3 font-mono text-sm text-paper no-underline transition-opacity duration-150 hover:opacity-90 hover:no-underline"
           >
-            {t('primaryCta')}
+            {robokassaReady ? t('payCta') : t('primaryCta')}
           </a>
           <Link
             href="/activate"
@@ -100,10 +108,10 @@ export default async function ShopPage({ params: { locale }, searchParams }: Pro
 
                 <div className="mt-6 flex flex-wrap gap-3">
                   <a
-                    href={`?plugin=${encodeURIComponent(plugin.slug)}${machineId ? `&machineId=${encodeURIComponent(machineId)}` : ''}#order-form`}
+                    href={`?plugin=${encodeURIComponent(plugin.slug)}${machineId ? `&machineId=${encodeURIComponent(machineId)}` : ''}#${robokassaReady ? 'pay-form' : 'order-form'}`}
                     className="inline-flex items-center bg-pen px-5 py-2.5 font-mono text-xs text-paper no-underline transition-opacity duration-150 hover:opacity-90 hover:no-underline"
                   >
-                    {t('selectPaid')}
+                    {robokassaReady ? t('paySelect') : t('selectPaid')}
                   </a>
                   <Link
                     href={`/plugins/${plugin.slug}`}
@@ -152,6 +160,15 @@ export default async function ShopPage({ params: { locale }, searchParams }: Pro
             <div className="border border-hairline p-5">
               <p className="font-mono text-xs uppercase tracking-wide text-graphite">{t('machineLabel')}</p>
               <p className="mt-2 break-all font-mono text-sm text-ink">{machineId}</p>
+            </div>
+          ) : null}
+          {robokassaReady ? (
+            <div id="pay-form">
+              <RobokassaPayForm
+                plugins={payPlugins}
+                initialPluginSlug={selectedPluginSlug}
+                machineId={machineId}
+              />
             </div>
           ) : null}
           <PluginPurchaseForm

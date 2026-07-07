@@ -1,8 +1,8 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import DimensionRule from '@/components/DimensionRule'
 import ContactCTA from '@/components/ContactCTA'
-import type { Locale } from '@/content/types'
 import { Link } from '@/i18n/navigation'
+import type { Locale } from '@/content/types'
 
 type Props = {
   params: { locale: Locale }
@@ -14,8 +14,8 @@ export default async function ActivatePage({ params: { locale }, searchParams }:
   const t = await getTranslations('activate')
   const machineId = searchParams?.machineId?.trim()
   const shopHref = machineId
-    ? (`/shop?machineId=${encodeURIComponent(machineId)}` as const)
-    : '/shop'
+    ? (`/shop?machineId=${encodeURIComponent(machineId)}#pay-form` as const)
+    : '/shop#pay-form'
 
   return (
     <div className="site-container py-12 md:py-16">
@@ -67,12 +67,6 @@ export default async function ActivatePage({ params: { locale }, searchParams }:
                 className="inline-flex items-center justify-center bg-pen px-6 py-3 font-mono text-sm text-paper no-underline transition-opacity duration-150 hover:opacity-90 hover:no-underline"
               >
                 {t('buyRu')}
-              </Link>
-              <Link
-                href={shopHref}
-                className="inline-flex items-center justify-center border border-hairline px-6 py-3 font-mono text-sm text-ink no-underline transition-colors duration-150 hover:border-pen hover:text-pen hover:no-underline"
-              >
-                {t('buyGlobal')}
               </Link>
               <Link
                 href="/custom"
