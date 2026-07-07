@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getPluginBySlug } from '@/content/plugins'
-import { generateLicenseKey, isLicensePluginSlug } from '@/lib/license'
+import { isLicensePluginSlug } from '@/lib/license'
 import { createOrder } from '@/lib/orders'
 import { buildPaymentUrl, getRobokassaConfig } from '@/lib/robokassa'
 

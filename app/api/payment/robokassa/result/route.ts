@@ -17,17 +17,44 @@ async function readCallbackParams(request: NextRequest): Promise<URLSearchParams
   }
 
   const contentType = request.headers.get('content-type') ?? ''
+
   if (contentType.includes('application/json')) {
-    const body = (await request.json()) as Record<string, string>
-    return new URLSearchParams(body)
+    try {
+      const body = (await request.json()) as Record<string, string>
+      return new URLSearchParams(body)
+    } catch {
+      return new URLSearchParams()
+    }
   }
 
-  const formData = await request.formData()
-  const params = new URLSearchParams()
-  formData.forEach((value, key) => {
-    if (typeof value === 'string') params.set(key, value)
-  })
-  return params
+  if (contentType.includes('application/x-www-form-urlencoded')) {
+    const text = await request.text()
+    return new URLSearchParams(text)
+  }
+
+  if (contentType.includes('multipart/form-data')) {
+    try {
+      const formData = await request.formData()
+      const params = new URLSearchParams()
+      formData.forEach((value, key) => {
+        if (typeof value === 'string') params.set(key, value)
+      })
+      return params
+    } catch {
+      return new URLSearchParams()
+    }
+  }
+
+  if (request.nextUrl.searchParams.toString()) {
+    return request.nextUrl.searchParams
+  }
+
+  const text = await request.text()
+  if (text.trim()) {
+    return new URLSearchParams(text)
+  }
+
+  return new URLSearchParams()
 }
 
 async function handleResult(request: NextRequest): Promise<NextResponse> {
