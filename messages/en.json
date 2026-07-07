@@ -38,12 +38,16 @@
   "shop": {
     "metaTitle": "Buy Nordlab plugins",
     "metaDescription": "Choose a Nordlab plugin, send a purchase request, and get a reply with pricing or download guidance.",
+    "eyebrow": "Licensing & purchase",
     "title": "Buy Nordlab plugins",
     "lead": "Choose the plugin you need, send a short request, and we'll reply with pricing, licensing details, or installation help for the current Nordlab add-on lineup.",
+    "primaryCta": "Send request",
+    "secondaryCta": "Open activation flow",
     "freeBadge": "Free",
     "manualBadge": "Quote",
     "selectFree": "Get help or access",
     "selectPaid": "Request purchase",
+    "detailsCta": "Plugin details",
     "downloadNow": "Download now",
     "howItWorksTitle": "How purchasing works",
     "highlights": [
@@ -51,6 +55,13 @@
       "We'll reply manually with pricing, licensing terms, and install guidance.",
       "We'll then move you into the correct activation flow and send the next step for payment or invoicing."
     ],
+    "trustTitle": "What you get",
+    "trustPoints": [
+      "A license for a real Archicad workflow rather than a generic demo tool.",
+      "Help with installation, first launch, and choosing the right usage scenario for your bureau or project.",
+      "A follow-up activation flow with machine ID support and a license key after payment."
+    ],
+    "machineLabel": "Machine ID from plugin",
     "form": {
       "title": "Purchase request",
       "lead": "This is a manual checkout. Leave your contact details and we will follow up with pricing or the next step.",

@@ -11,6 +11,7 @@ type PluginOption = {
   slug: string
   name: string
   tagline: string
+  highlights: string[]
   isFree: boolean
   downloadUrl?: string
 }
@@ -28,6 +29,7 @@ type ErrorCode =
 type PluginPurchaseFormProps = {
   plugins: PluginOption[]
   initialPluginSlug?: string
+  machineId?: string
 }
 
 declare global {
@@ -45,6 +47,7 @@ declare global {
 export default function PluginPurchaseForm({
   plugins,
   initialPluginSlug,
+  machineId,
 }: PluginPurchaseFormProps) {
   const t = useTranslations('shop.form')
   const router = useRouter()
@@ -100,7 +103,10 @@ export default function PluginPurchaseForm({
     setSelectedPluginSlug(slug)
     setStatus('idle')
     setErrorCode(null)
-    router.replace(`?plugin=${encodeURIComponent(slug)}`, { scroll: false })
+    const params = new URLSearchParams()
+    params.set('plugin', slug)
+    if (machineId) params.set('machineId', machineId)
+    router.replace(`?${params.toString()}`, { scroll: false })
   }
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
@@ -134,7 +140,10 @@ export default function PluginPurchaseForm({
       setSelectedPluginSlug(fallbackSlug)
       resetTurnstile()
       if (fallbackSlug) {
-        router.replace(`?plugin=${encodeURIComponent(fallbackSlug)}`, { scroll: false })
+        const params = new URLSearchParams()
+        params.set('plugin', fallbackSlug)
+        if (machineId) params.set('machineId', machineId)
+        router.replace(`?${params.toString()}`, { scroll: false })
       }
     } catch {
       setErrorCode('server')
@@ -171,6 +180,8 @@ export default function PluginPurchaseForm({
             <input type="text" id="website" name="website" tabIndex={-1} autoComplete="off" />
           </div>
 
+          {machineId ? <input type="hidden" name="machineId" value={machineId} /> : null}
+
           <div>
             <label htmlFor="pluginSlug" className={labelClass}>
               {t('pluginLabel')}
@@ -190,25 +201,32 @@ export default function PluginPurchaseForm({
               ))}
             </select>
             {selectedPlugin && (
-              <p className="mt-2 text-sm text-graphite">
-                {selectedPlugin.tagline}{' '}
-                {selectedPlugin.isFree ? (
-                  selectedPlugin.downloadUrl ? (
-                    <a
-                      href={selectedPlugin.downloadUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-pen underline-offset-4 hover:underline"
-                    >
-                      {t('freeDownload')}
-                    </a>
+              <div className="mt-2 space-y-2">
+                <p className="text-sm text-graphite">
+                  {selectedPlugin.tagline}{' '}
+                  {selectedPlugin.isFree ? (
+                    selectedPlugin.downloadUrl ? (
+                      <a
+                        href={selectedPlugin.downloadUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-pen underline-offset-4 hover:underline"
+                      >
+                        {t('freeDownload')}
+                      </a>
+                    ) : (
+                      t('freeLabel')
+                    )
                   ) : (
-                    t('freeLabel')
-                  )
-                ) : (
-                  <span className="font-mono text-xs uppercase text-pen">{t('manualLabel')}</span>
-                )}
-              </p>
+                    <span className="font-mono text-xs uppercase text-pen">{t('manualLabel')}</span>
+                  )}
+                </p>
+                <ul className="space-y-1 text-sm text-graphite">
+                  {selectedPlugin.highlights.slice(0, 3).map((item) => (
+                    <li key={item}>• {item}</li>
+                  ))}
+                </ul>
+              </div>
             )}
           </div>
 
