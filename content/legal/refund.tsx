@@ -1,6 +1,7 @@
 import type { Locale } from '@/content/types'
 import type { LegalSection } from '@/components/LegalPage'
 import { company } from '@/content/company'
+import { createLegalLink } from '@/content/legal/links'
 
 type LegalDoc = {
   title: string
@@ -9,13 +10,8 @@ type LegalDoc = {
   sections: LegalSection[]
 }
 
-const link = (href: string, text: string) => (
-  <a href={href} className="text-pen underline-offset-4 hover:underline">
-    {text}
-  </a>
-)
-
 export function getRefundDoc(locale: Locale): LegalDoc {
+  const link = createLegalLink(locale)
   if (locale === 'ru') {
     return {
       title: 'Возврат денежных средств',

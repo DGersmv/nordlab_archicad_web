@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 const HEADER_LOCALE_NAME = 'X-NEXT-INTL-LOCALE'
+const LOCALE_COOKIE = 'NEXT_LOCALE'
 const locales = ['en', 'ru'] as const
 const defaultLocale = 'en'
 
@@ -69,6 +70,16 @@ export default function middleware(request: NextRequest) {
 
     requestHeaders.set(HEADER_LOCALE_NAME, segment)
     const response = NextResponse.next({ request: { headers: requestHeaders } })
+    response.cookies.set(LOCALE_COOKIE, segment, { path: '/', maxAge: 60 * 60 * 24 * 365 })
+    sanitizeHeaders(response.headers)
+    return response
+  }
+
+  const cookieLocale = request.cookies.get(LOCALE_COOKIE)?.value
+  if (cookieLocale === 'ru') {
+    const url = request.nextUrl.clone()
+    url.pathname = pathname === '/' ? '/ru' : `/ru${pathname}`
+    const response = NextResponse.redirect(url)
     sanitizeHeaders(response.headers)
     return response
   }
@@ -77,6 +88,7 @@ export default function middleware(request: NextRequest) {
   url.pathname = pathname === '/' ? `/${defaultLocale}` : `/${defaultLocale}${pathname}`
   requestHeaders.set(HEADER_LOCALE_NAME, defaultLocale)
   const response = NextResponse.rewrite(url, { request: { headers: requestHeaders } })
+  response.cookies.set(LOCALE_COOKIE, defaultLocale, { path: '/', maxAge: 60 * 60 * 24 * 365 })
   sanitizeHeaders(response.headers)
   return response
 }

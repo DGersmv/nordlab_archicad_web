@@ -2,6 +2,7 @@ import { getTranslations, setRequestLocale } from 'next-intl/server'
 import DimensionRule from '@/components/DimensionRule'
 import ContactCTA from '@/components/ContactCTA'
 import type { Locale } from '@/content/types'
+import { Link } from '@/i18n/navigation'
 
 type Props = {
   params: { locale: Locale }
@@ -12,6 +13,9 @@ export default async function ActivatePage({ params: { locale }, searchParams }:
   setRequestLocale(locale)
   const t = await getTranslations('activate')
   const machineId = searchParams?.machineId?.trim()
+  const shopHref = machineId
+    ? (`/shop?machineId=${encodeURIComponent(machineId)}` as const)
+    : '/shop'
 
   return (
     <div className="site-container py-12 md:py-16">
@@ -58,24 +62,24 @@ export default async function ActivatePage({ params: { locale }, searchParams }:
             <p className="mt-2 text-graphite">{t('checkoutLead')}</p>
 
             <div className="mt-6 grid gap-4">
-              <a
-                href={machineId ? `/shop?machineId=${encodeURIComponent(machineId)}` : '/shop'}
+              <Link
+                href={shopHref}
                 className="inline-flex items-center justify-center bg-pen px-6 py-3 font-mono text-sm text-paper no-underline transition-opacity duration-150 hover:opacity-90 hover:no-underline"
               >
                 {t('buyRu')}
-              </a>
-              <a
-                href={machineId ? `/shop?machineId=${encodeURIComponent(machineId)}` : '/shop'}
+              </Link>
+              <Link
+                href={shopHref}
                 className="inline-flex items-center justify-center border border-hairline px-6 py-3 font-mono text-sm text-ink no-underline transition-colors duration-150 hover:border-pen hover:text-pen hover:no-underline"
               >
                 {t('buyGlobal')}
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/custom"
                 className="inline-flex items-center justify-center border border-hairline px-6 py-3 font-mono text-sm text-ink no-underline transition-colors duration-150 hover:border-pen hover:text-pen hover:no-underline"
               >
                 {t('needInvoice')}
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -83,12 +87,12 @@ export default async function ActivatePage({ params: { locale }, searchParams }:
             <h2 className="text-display text-ink">{t('helpTitle')}</h2>
             <p className="mt-2 text-graphite">{t('helpLead')}</p>
             <div className="mt-5">
-              <a
+              <Link
                 href="/custom"
                 className="inline-flex items-center border border-hairline px-5 py-2.5 font-mono text-sm text-ink no-underline transition-colors duration-150 hover:border-pen hover:text-pen"
               >
                 {t('helpCta')}
-              </a>
+              </Link>
             </div>
           </div>
 

@@ -4,7 +4,9 @@ import DimensionRule from '@/components/DimensionRule'
 import PluginPurchaseForm from '@/components/PluginPurchaseForm'
 import ContactCTA from '@/components/ContactCTA'
 import { getFeatureBlocks } from '@/content/plugins'
+import { company } from '@/content/company'
 import type { Locale } from '@/content/types'
+import { Link, getPathname } from '@/i18n/navigation'
 import { pickLocalized } from '@/lib/locale'
 
 type Props = {
@@ -55,12 +57,12 @@ export default async function ShopPage({ params: { locale }, searchParams }: Pro
           >
             {t('primaryCta')}
           </a>
-          <a
+          <Link
             href="/activate"
             className="inline-flex items-center border border-hairline px-6 py-3 font-mono text-sm text-ink no-underline transition-colors duration-150 hover:border-pen hover:text-pen hover:no-underline"
           >
             {t('secondaryCta')}
-          </a>
+          </Link>
         </div>
       </header>
 
@@ -103,12 +105,12 @@ export default async function ShopPage({ params: { locale }, searchParams }: Pro
                   >
                     {t('selectPaid')}
                   </a>
-                  <a
+                  <Link
                     href={`/plugins/${plugin.slug}`}
                     className="inline-flex items-center border border-hairline px-5 py-2.5 font-mono text-xs text-ink no-underline transition-colors duration-150 hover:border-pen hover:text-pen hover:no-underline"
                   >
                     {t('detailsCta')}
-                  </a>
+                  </Link>
                   {plugin.downloadUrl ? (
                     <a
                       href={plugin.downloadUrl}
@@ -162,21 +164,16 @@ export default async function ShopPage({ params: { locale }, searchParams }: Pro
             <p className="font-mono uppercase text-ink">{t('legalTitle')}</p>
             <p className="mt-2">{t('legalLead')}</p>
             <ul className="mt-3 space-y-1">
-              <li>
-                <a href="https://nordlab.net/offer" className="text-pen no-underline hover:underline">
-                  https://nordlab.net/offer
-                </a>
-              </li>
-              <li>
-                <a href="https://nordlab.net/privacy" className="text-pen no-underline hover:underline">
-                  https://nordlab.net/privacy
-                </a>
-              </li>
-              <li>
-                <a href="https://nordlab.net/refund" className="text-pen no-underline hover:underline">
-                  https://nordlab.net/refund
-                </a>
-              </li>
+              {(['/offer', '/privacy', '/refund'] as const).map((path) => {
+                const href = `${company.siteUrl}${getPathname({ locale, href: path })}`
+                return (
+                  <li key={path}>
+                    <a href={href} className="text-pen no-underline hover:underline">
+                      {href}
+                    </a>
+                  </li>
+                )
+              })}
             </ul>
           </aside>
         </div>

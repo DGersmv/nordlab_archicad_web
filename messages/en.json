@@ -223,5 +223,9 @@
   "compat": {
     "yes": "Yes",
     "no": "—"
+  },
+  "notFound": {
+    "message": "Page not found.",
+    "home": "← Home"
   }
 }
