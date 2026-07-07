@@ -21,7 +21,6 @@ const ac = (version: ArchicadBuild, filename: string): PluginBuildFile => ({
   archicad: version,
   filename,
   href: `/downloads/ac${version}/${filename}`,
-  available: true,
 })
 
 export const pluginDownloads: PluginDownloadEntry[] = [

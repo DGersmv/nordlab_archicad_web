@@ -18,7 +18,6 @@ type PluginOption = {
     eur: number
   }
   highlights: string[]
-  isFree: boolean
   downloadUrl?: string
 }
 
