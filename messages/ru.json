@@ -5,6 +5,7 @@
   },
   "nav": {
     "plugins": "Плагины",
+    "download": "Скачать",
     "shop": "Купить",
     "manufacturers": "Производителям",
     "custom": "Разработка на заказ",
@@ -62,11 +63,14 @@
       "Дальнейший переход в activation flow с machine ID и выдачей ключа после оплаты."
     ],
     "machineLabel": "Machine ID из плагина",
+    "legalTitle": "Документы для оплаты",
+    "legalLead": "Для Robokassa и оформления заказа используйте эти URL:",
     "form": {
       "title": "Заявка на покупку",
       "lead": "Это ручное оформление. Оставьте контактные данные, и мы вернёмся с ценой или следующим шагом.",
       "pluginLabel": "Плагин",
       "freeDownload": "Скачать бесплатную версию",
+      "trialDownload": "Скачать trial",
       "freeLabel": "Бесплатный плагин",
       "manualLabel": "Ручной расчёт",
       "nameLabel": "Имя",
@@ -182,7 +186,39 @@
   "footer": {
     "tagline": "Аддоны и разработка для Archicad",
     "developer": "Registered Graphisoft API Developer",
-    "rights": "Graphisoft, Archicad и GDL — товарные знаки Graphisoft SE."
+    "rights": "Graphisoft, Archicad и GDL — товарные знаки Graphisoft SE. © Nordlab.",
+    "legalTitle": "Документы",
+    "privacy": "Политика конфиденциальности",
+    "offer": "Публичная оферта",
+    "refund": "Возврат средств",
+    "terms": "Пользовательское соглашение",
+    "inn": "ИНН",
+    "ogrn": "ОГРН",
+    "payment": "Оплата через"
+  },
+  "download": {
+    "title": "Скачать плагины Nordlab",
+    "lead": "Trial-сборки для Archicad 27–29 (Windows). В каждом плагине — 10 бесплатных запусков до активации.",
+    "trialNote": "После trial купите лицензию в магазине и активируйте по machine ID внутри плагина.",
+    "productPage": "Страница плагина",
+    "buyLicense": "Купить лицензию",
+    "archicad": "Archicad",
+    "file": "Файл",
+    "action": "Скачать",
+    "download": "Скачать .apx",
+    "comingSoon": "Скоро",
+    "installTitle": "Установка",
+    "installSteps": [
+      "Скачайте .apx для вашей версии Archicad.",
+      "В Archicad: Аддоны → Менеджер аддонов → Установить и выберите файл.",
+      "Перезапустите Archicad и откройте аддон в меню Extensions."
+    ],
+    "seller": "Продавец",
+    "inn": "ИНН",
+    "ogrn": "ОГРН"
+  },
+  "consent": {
+    "label": "Я согласен с <privacy>политикой конфиденциальности</privacy> и принимаю условия <offer>публичной оферты</offer> в части обработки персональных данных."
   },
   "compat": {
     "yes": "Да",

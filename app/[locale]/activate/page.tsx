@@ -45,6 +45,10 @@ export default async function ActivatePage({ params: { locale }, searchParams }:
                 </li>
               ))}
             </ol>
+            <div className="mt-6 border border-hairline bg-paper p-4">
+              <p className="font-mono text-xs uppercase tracking-wide text-graphite">OpeningMaster price</p>
+              <p className="mt-2 font-mono text-sm text-ink">3000 RUB / 30 EUR</p>
+            </div>
           </div>
         </section>
 

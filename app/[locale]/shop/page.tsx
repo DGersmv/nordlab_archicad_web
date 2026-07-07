@@ -28,8 +28,8 @@ export default async function ShopPage({ params: { locale }, searchParams }: Pro
     slug: block.slug,
     name: pickLocalized(block.name, locale),
     tagline: pickLocalized(block.tagline, locale),
+    price: block.price,
     highlights: block.whatItDoes[locale],
-    isFree: Boolean(block.download),
     downloadUrl: block.download?.url,
   }))
 
@@ -78,6 +78,13 @@ export default async function ShopPage({ params: { locale }, searchParams }: Pro
                       <span className="font-mono text-xs uppercase text-pen">{t('manualBadge')}</span>
                     </div>
                     <p className="mt-3 text-lead text-graphite">{plugin.tagline}</p>
+                    <p className="mt-3 font-mono text-lg font-semibold text-ink">
+                      {plugin.price.rub.toLocaleString(locale === 'ru' ? 'ru-RU' : 'en-US')} ₽
+                    </p>
+                    <p className="mt-1 font-mono text-xs text-graphite">
+                      {locale === 'ru' ? 'ориентир' : 'reference'}:{' '}
+                      {plugin.price.eur.toLocaleString(locale === 'ru' ? 'ru-RU' : 'en-US')} EUR
+                    </p>
                   </div>
                 </div>
 
@@ -102,6 +109,14 @@ export default async function ShopPage({ params: { locale }, searchParams }: Pro
                   >
                     {t('detailsCta')}
                   </a>
+                  {plugin.downloadUrl ? (
+                    <a
+                      href={plugin.downloadUrl}
+                      className="inline-flex items-center border border-hairline px-5 py-2.5 font-mono text-xs text-ink no-underline transition-colors duration-150 hover:border-pen hover:text-pen hover:no-underline"
+                    >
+                      {t('downloadNow')}
+                    </a>
+                  ) : null}
                 </div>
               </article>
             ))}
@@ -143,6 +158,27 @@ export default async function ShopPage({ params: { locale }, searchParams }: Pro
             machineId={machineId}
           />
           <ContactCTA compact />
+          <aside className="border border-hairline p-5 text-xs text-graphite">
+            <p className="font-mono uppercase text-ink">{t('legalTitle')}</p>
+            <p className="mt-2">{t('legalLead')}</p>
+            <ul className="mt-3 space-y-1">
+              <li>
+                <a href="https://nordlab.net/offer" className="text-pen no-underline hover:underline">
+                  https://nordlab.net/offer
+                </a>
+              </li>
+              <li>
+                <a href="https://nordlab.net/privacy" className="text-pen no-underline hover:underline">
+                  https://nordlab.net/privacy
+                </a>
+              </li>
+              <li>
+                <a href="https://nordlab.net/refund" className="text-pen no-underline hover:underline">
+                  https://nordlab.net/refund
+                </a>
+              </li>
+            </ul>
+          </aside>
         </div>
       </div>
     </div>

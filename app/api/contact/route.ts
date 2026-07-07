@@ -212,8 +212,9 @@ export async function POST(request: NextRequest) {
     const fileEntry = formData.get('file')
     const file = fileEntry instanceof File && fileEntry.size > 0 ? fileEntry : null
     const turnstileToken = formData.get('cf-turnstile-response')?.toString()
+    const privacyConsent = formData.get('privacyConsent')?.toString()
 
-    if (!name || !contact || !task) {
+    if (!name || !contact || !task || privacyConsent !== 'yes') {
       return NextResponse.json({ error: 'validation' }, { status: 400 })
     }
 

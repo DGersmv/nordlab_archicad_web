@@ -66,14 +66,23 @@ export default function PluginCard({ block, locale }: PluginCardProps) {
       </Link>
       <div className="px-5 pb-5">
         {block.download ? (
-          <a
-            href={ctaHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center bg-pen px-4 py-2 font-mono text-xs text-paper no-underline transition-opacity duration-150 hover:opacity-90 hover:no-underline"
-          >
-            {ctaLabel}
-          </a>
+          block.download.url.startsWith('/') ? (
+            <Link
+              href={block.download.url}
+              className="inline-flex items-center bg-pen px-4 py-2 font-mono text-xs text-paper no-underline transition-opacity duration-150 hover:opacity-90 hover:no-underline"
+            >
+              {ctaLabel}
+            </Link>
+          ) : (
+            <a
+              href={ctaHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center bg-pen px-4 py-2 font-mono text-xs text-paper no-underline transition-opacity duration-150 hover:opacity-90 hover:no-underline"
+            >
+              {ctaLabel}
+            </a>
+          )
         ) : (
           <Link
             href={ctaHref}

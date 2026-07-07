@@ -5,6 +5,7 @@
   },
   "nav": {
     "plugins": "Plugins",
+    "download": "Download",
     "shop": "Buy",
     "manufacturers": "For manufacturers",
     "custom": "Custom development",
@@ -62,11 +63,14 @@
       "A follow-up activation flow with machine ID support and a license key after payment."
     ],
     "machineLabel": "Machine ID from plugin",
+    "legalTitle": "Payment documents",
+    "legalLead": "Use these URLs for Robokassa and checkout:",
     "form": {
       "title": "Purchase request",
       "lead": "This is a manual checkout. Leave your contact details and we will follow up with pricing or the next step.",
       "pluginLabel": "Plugin",
       "freeDownload": "Download free version",
+      "trialDownload": "Download trial",
       "freeLabel": "Free plugin",
       "manualLabel": "Manual quote",
       "nameLabel": "Name",
@@ -182,7 +186,39 @@
   "footer": {
     "tagline": "Archicad add-ons & custom development",
     "developer": "Registered Graphisoft API Developer",
-    "rights": "Graphisoft, Archicad, and GDL are trademarks of Graphisoft SE."
+    "rights": "Graphisoft, Archicad, and GDL are trademarks of Graphisoft SE. © Nordlab.",
+    "legalTitle": "Legal",
+    "privacy": "Privacy Policy",
+    "offer": "Public Offer",
+    "refund": "Refund Policy",
+    "terms": "Terms of Use",
+    "inn": "INN",
+    "ogrn": "OGRN",
+    "payment": "Payments via"
+  },
+  "download": {
+    "title": "Download Nordlab plugins",
+    "lead": "Trial builds for Archicad 27–29 (Windows). Each plugin includes 10 free launches before activation.",
+    "trialNote": "After trial, purchase a license in the shop and activate with your machine ID inside the add-on.",
+    "productPage": "Product page",
+    "buyLicense": "Buy license",
+    "archicad": "Archicad",
+    "file": "File",
+    "action": "Download",
+    "download": "Download .apx",
+    "comingSoon": "Coming soon",
+    "installTitle": "Installation",
+    "installSteps": [
+      "Download the .apx file for your Archicad version.",
+      "In Archicad: Add-ons → Add-On Manager → Install, then select the file.",
+      "Restart Archicad and open the add-on from the Extensions menu."
+    ],
+    "seller": "Seller",
+    "inn": "INN",
+    "ogrn": "OGRN"
+  },
+  "consent": {
+    "label": "I agree to the <privacy>Privacy Policy</privacy> and accept the <offer>Public Offer</offer> terms for personal data processing."
   },
   "compat": {
     "yes": "Yes",

@@ -37,12 +37,18 @@ export interface PluginImage {
   alt?: LocalizedText
 }
 
+export interface PluginPrice {
+  rub: number
+  eur: number
+}
+
 /** Functional block in the catalog (one workflow / tool). */
 export interface FeatureBlock {
   order: number
   slug: string
   name: LocalizedText
   tagline: LocalizedText
+  price: PluginPrice
   whatItDoes: LocalizedList
   solutions: SolutionId[]
   compatibility: CompatRow[]

@@ -8,10 +8,15 @@ const staticPaths = [
   '',
   '/activate',
   '/shop',
+  '/download',
   '/for-manufacturers',
   '/custom',
   '/about',
   '/changelog',
+  '/privacy',
+  '/offer',
+  '/refund',
+  '/terms',
 ]
 
 export default function sitemap(): MetadataRoute.Sitemap {

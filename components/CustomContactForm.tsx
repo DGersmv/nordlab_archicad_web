@@ -2,6 +2,7 @@
 
 import { useTranslations } from 'next-intl'
 import { FormEvent, useEffect, useRef, useState } from 'react'
+import PrivacyConsent from '@/components/PrivacyConsent'
 
 const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY
 
@@ -165,6 +166,8 @@ export default function CustomContactForm() {
           </div>
 
           {TURNSTILE_SITE_KEY && <div ref={turnstileRef} />}
+
+          <PrivacyConsent />
 
           {status === 'error' && errorCode && (
             <p className="font-mono text-sm text-red-600" role="alert">

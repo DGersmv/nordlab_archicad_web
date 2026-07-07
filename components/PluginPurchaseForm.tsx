@@ -4,6 +4,8 @@ import { useTranslations } from 'next-intl'
 import { FormEvent, useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { siteLinks } from '@/content/site'
+import PrivacyConsent from '@/components/PrivacyConsent'
+import { Link } from '@/i18n/navigation'
 
 const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY
 
@@ -11,6 +13,10 @@ type PluginOption = {
   slug: string
   name: string
   tagline: string
+  price: {
+    rub: number
+    eur: number
+  }
   highlights: string[]
   isFree: boolean
   downloadUrl?: string
@@ -204,22 +210,29 @@ export default function PluginPurchaseForm({
               <div className="mt-2 space-y-2">
                 <p className="text-sm text-graphite">
                   {selectedPlugin.tagline}{' '}
-                  {selectedPlugin.isFree ? (
-                    selectedPlugin.downloadUrl ? (
+                  {selectedPlugin.downloadUrl ? (
+                    selectedPlugin.downloadUrl.startsWith('/') ? (
+                      <Link
+                        href={selectedPlugin.downloadUrl}
+                        className="text-pen underline-offset-4 hover:underline"
+                      >
+                        {t('trialDownload')}
+                      </Link>
+                    ) : (
                       <a
                         href={selectedPlugin.downloadUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-pen underline-offset-4 hover:underline"
                       >
-                        {t('freeDownload')}
+                        {t('trialDownload')}
                       </a>
-                    ) : (
-                      t('freeLabel')
                     )
-                  ) : (
-                    <span className="font-mono text-xs uppercase text-pen">{t('manualLabel')}</span>
-                  )}
+                  ) : null}{' '}
+                  <span className="font-mono text-xs uppercase text-pen">{t('manualLabel')}</span>
+                </p>
+                <p className="font-mono text-xs uppercase text-ink">
+                  {selectedPlugin.price.rub.toLocaleString()} ₽
                 </p>
                 <ul className="space-y-1 text-sm text-graphite">
                   {selectedPlugin.highlights.slice(0, 3).map((item) => (
@@ -305,6 +318,8 @@ export default function PluginPurchaseForm({
           </div>
 
           {TURNSTILE_SITE_KEY && <div ref={turnstileRef} />}
+
+          <PrivacyConsent />
 
           {status === 'error' && errorCode && (
             <p className="font-mono text-sm text-red-600" role="alert">

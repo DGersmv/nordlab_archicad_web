@@ -5,6 +5,10 @@ export const featureBlocks: FeatureBlock[] = [
   {
     order: 1,
     slug: 'meshmaster',
+    price: {
+      rub: 3000,
+      eur: 30,
+    },
     name: {
       en: 'MeshMaster',
       ru: 'MeshMaster',
@@ -40,10 +44,21 @@ export const featureBlocks: FeatureBlock[] = [
         },
       },
     ],
+    download: {
+      url: '/download#meshmaster',
+      label: {
+        en: 'Download trial',
+        ru: 'Скачать trial',
+      },
+    },
   },
   {
     order: 2,
     slug: 'tableset',
+    price: {
+      rub: 3000,
+      eur: 30,
+    },
     name: {
       en: 'TableSet',
       ru: 'TableSet',
@@ -79,10 +94,21 @@ export const featureBlocks: FeatureBlock[] = [
         },
       },
     ],
+    download: {
+      url: '/download#tableset',
+      label: {
+        en: 'Download trial',
+        ru: 'Скачать trial',
+      },
+    },
   },
   {
     order: 3,
     slug: 'openingmaster',
+    price: {
+      rub: 3000,
+      eur: 30,
+    },
     name: {
       en: 'OpeningMaster',
       ru: 'OpeningMaster',
@@ -112,6 +138,13 @@ export const featureBlocks: FeatureBlock[] = [
     mediaPlaceholder: {
       en: 'Opening propagation palette preview coming soon',
       ru: 'Превью палитры пропагации проёмов будет добавлено позже',
+    },
+    download: {
+      url: '/download#openingmaster',
+      label: {
+        en: 'Download trial',
+        ru: 'Скачать trial',
+      },
     },
   },
 ]

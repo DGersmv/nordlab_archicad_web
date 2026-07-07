@@ -169,11 +169,12 @@ export async function POST(request: NextRequest) {
     const seatsRaw = formData.get('seats')?.toString().trim() ?? '1'
     const notes = formData.get('notes')?.toString().trim() ?? ''
     const turnstileToken = formData.get('cf-turnstile-response')?.toString()
+    const privacyConsent = formData.get('privacyConsent')?.toString()
 
     const seats = Number(seatsRaw)
     const plugin = getPluginBySlug(pluginSlug)
 
-    if (!plugin || !name || !contact || !Number.isFinite(seats) || seats < 1) {
+    if (!plugin || !name || !contact || !Number.isFinite(seats) || seats < 1 || privacyConsent !== 'yes') {
       return NextResponse.json({ error: 'validation' }, { status: 400 })
     }
 
@@ -195,6 +196,7 @@ export async function POST(request: NextRequest) {
     }
 
     const pluginName = plugin.name.en
+    const pluginPrice = `${plugin.price.rub} RUB / ${plugin.price.eur} EUR`
     const deliveryType = plugin.download ? 'Free download / assistance request' : 'Manual purchase inquiry'
     const normalizedLicenseType = normalizeLicenseType(licenseType)
 
@@ -202,6 +204,7 @@ export async function POST(request: NextRequest) {
       '<b>New plugin order inquiry</b>',
       '',
       `<b>Plugin:</b> ${escapeHtml(pluginName)}`,
+      `<b>Price:</b> ${escapeHtml(pluginPrice)}`,
       `<b>Delivery:</b> ${escapeHtml(deliveryType)}`,
       `<b>License:</b> ${escapeHtml(normalizedLicenseType)}`,
       `<b>Seats:</b> ${escapeHtml(String(seats))}`,
@@ -217,6 +220,7 @@ export async function POST(request: NextRequest) {
       'New plugin order inquiry',
       '',
       `Plugin: ${pluginName}`,
+      `Price: ${pluginPrice}`,
       `Delivery: ${deliveryType}`,
       `License: ${normalizedLicenseType}`,
       `Seats: ${seats}`,

@@ -45,6 +45,9 @@ export default async function PluginPage({ block, locale }: PluginPageProps) {
         </p>
         <h1 className="text-display-xl text-ink">{pickLocalized(block.name, locale)}</h1>
         <p className="mt-4 text-lead text-graphite">{pickLocalized(block.tagline, locale)}</p>
+        <p className="mt-4 font-mono text-lg font-semibold text-ink">
+          {block.price.rub.toLocaleString(locale === 'ru' ? 'ru-RU' : 'en-US')} ₽
+        </p>
         <div className="mt-4 flex flex-wrap gap-2">
           {block.solutions.map((id) => (
             <SolutionBadge key={id} id={id} />
@@ -101,19 +104,28 @@ export default async function PluginPage({ block, locale }: PluginPageProps) {
 
       {block.download ? (
         <div className="mt-16 max-w-3xl flex flex-wrap gap-4">
-          <a
-            href={block.download.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center bg-pen px-6 py-3 font-mono text-sm text-paper no-underline transition-opacity duration-150 hover:opacity-90 hover:no-underline"
-          >
-            {pickLocalized(block.download.label, locale)}
-          </a>
+          {block.download.url.startsWith('/') ? (
+            <Link
+              href={block.download.url}
+              className="inline-flex items-center bg-pen px-6 py-3 font-mono text-sm text-paper no-underline transition-opacity duration-150 hover:opacity-90 hover:no-underline"
+            >
+              {pickLocalized(block.download.label, locale)}
+            </Link>
+          ) : (
+            <a
+              href={block.download.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center bg-pen px-6 py-3 font-mono text-sm text-paper no-underline transition-opacity duration-150 hover:opacity-90 hover:no-underline"
+            >
+              {pickLocalized(block.download.label, locale)}
+            </a>
+          )}
           <Link
             href={`/shop?plugin=${encodeURIComponent(block.slug)}`}
             className="inline-flex items-center border border-hairline px-6 py-3 font-mono text-sm text-ink no-underline transition-colors duration-150 hover:border-pen hover:text-pen hover:no-underline"
           >
-            {t('needHelp')}
+            {t('buyNow')}
           </Link>
         </div>
       ) : (
