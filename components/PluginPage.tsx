@@ -9,6 +9,7 @@ import MediaPlaceholder from './MediaPlaceholder'
 import DimensionRule from './DimensionRule'
 import ArchicadLogo from './ArchicadLogo'
 import SolutionBadge from './SolutionBadge'
+import { Link } from '@/i18n/navigation'
 
 function showMediaPlaceholder(block: FeatureBlock): boolean {
   return !block.videos?.length && !block.images?.length && !!block.mediaPlaceholder
@@ -99,7 +100,7 @@ export default async function PluginPage({ block, locale }: PluginPageProps) {
       </section>
 
       {block.download ? (
-        <div className="mt-16 max-w-3xl">
+        <div className="mt-16 max-w-3xl flex flex-wrap gap-4">
           <a
             href={block.download.url}
             target="_blank"
@@ -108,8 +109,23 @@ export default async function PluginPage({ block, locale }: PluginPageProps) {
           >
             {pickLocalized(block.download.label, locale)}
           </a>
+          <Link
+            href={`/shop?plugin=${encodeURIComponent(block.slug)}`}
+            className="inline-flex items-center border border-hairline px-6 py-3 font-mono text-sm text-ink no-underline transition-colors duration-150 hover:border-pen hover:text-pen hover:no-underline"
+          >
+            {t('needHelp')}
+          </Link>
         </div>
-      ) : null}
+      ) : (
+        <div className="mt-16 max-w-3xl">
+          <Link
+            href={`/shop?plugin=${encodeURIComponent(block.slug)}`}
+            className="inline-flex items-center bg-pen px-6 py-3 font-mono text-sm text-paper no-underline transition-opacity duration-150 hover:opacity-90 hover:no-underline"
+          >
+            {t('buyNow')}
+          </Link>
+        </div>
+      )}
 
       <div className="mt-16 max-w-3xl">
         <ContactCTA />

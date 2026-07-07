@@ -5,6 +5,7 @@
   },
   "nav": {
     "plugins": "Plugins",
+    "shop": "Buy",
     "manufacturers": "For manufacturers",
     "custom": "Custom development",
     "about": "About",
@@ -16,9 +17,10 @@
     "heroSubtitle": "Add-ons for terrain import, landscape automation, shells on topo, and model data — built by a practicing architect and Registered API Developer.",
     "heroInteractiveCaption": "Points are draggable",
     "browsePlugins": "Browse plugins",
+    "buyPlugins": "Buy plugins",
     "customDev": "Custom development",
     "catalogTitle": "Plugins",
-    "catalogLead": "11 functional blocks — terrain, landscape, shells, markup, and BIM data. Each links to its product package.",
+    "catalogLead": "Three focused Archicad add-ons are live right now: MeshMaster for terrain workflows, TableSet for selection and ID management, and OpeningMaster for synchronized wall openings.",
     "whoTitle": "Who builds this",
     "whoLead": "Practicing architect. Registered Graphisoft API Developer. Tools born from daily Archicad work — not concept demos.",
     "contactTitle": "Get in touch"
@@ -27,9 +29,86 @@
     "whatItDoes": "What it does",
     "compatibility": "Compatibility",
     "changelog": "Changelog",
+    "buyNow": "Request purchase",
+    "needHelp": "Need help with setup?",
     "windows": "Windows",
     "mac": "macOS",
     "version": "Archicad"
+  },
+  "shop": {
+    "metaTitle": "Buy Nordlab plugins",
+    "metaDescription": "Choose a Nordlab plugin, send a purchase request, and get a reply with pricing or download guidance.",
+    "title": "Buy Nordlab plugins",
+    "lead": "Choose the plugin you need, send a short request, and we'll reply with pricing, licensing details, or installation help for the current Nordlab add-on lineup.",
+    "freeBadge": "Free",
+    "manualBadge": "Quote",
+    "selectFree": "Get help or access",
+    "selectPaid": "Request purchase",
+    "downloadNow": "Download now",
+    "howItWorksTitle": "How purchasing works",
+    "highlights": [
+      "Choose a plugin and tell us how many seats you need.",
+      "We'll reply manually with pricing, licensing terms, and install guidance.",
+      "We'll then move you into the correct activation flow and send the next step for payment or invoicing."
+    ],
+    "form": {
+      "title": "Purchase request",
+      "lead": "This is a manual checkout. Leave your contact details and we will follow up with pricing or the next step.",
+      "pluginLabel": "Plugin",
+      "freeDownload": "Download free version",
+      "freeLabel": "Free plugin",
+      "manualLabel": "Manual quote",
+      "nameLabel": "Name",
+      "contactLabel": "Contact",
+      "contactPlaceholder": "Email or Telegram",
+      "companyLabel": "Company / bureau",
+      "licenseTypeLabel": "License type",
+      "licenseTypes": {
+        "single": "Single seat",
+        "team": "Team",
+        "enterprise": "Enterprise / bureau-wide",
+        "edu": "Education / trial"
+      },
+      "seatsLabel": "Seats",
+      "notesLabel": "Notes",
+      "notesPlaceholder": "Tell us your Archicad version, use case, or whether you need an invoice.",
+      "submit": "Send request",
+      "submitting": "Sending…",
+      "success": "Request sent. We'll get back to you shortly.",
+      "fallback": "If you prefer, you can also write directly to {email} or Telegram {telegram}.",
+      "errors": {
+        "validation": "Please fill in the required fields and choose a valid plugin.",
+        "turnstile": "Verification failed. Please try again.",
+        "rate_limit": "Too many requests. Please wait a moment.",
+        "not_configured": "The order form is not configured on this server yet. Please use email or Telegram instead.",
+        "smtp_failed": "Could not send your request by email. Please use email or Telegram directly.",
+        "telegram_failed": "Could not deliver your request. Please use email or Telegram directly.",
+        "server": "Something went wrong. Please try again or contact us directly."
+      }
+    }
+  },
+  "activate": {
+    "eyebrow": "Plugin activation",
+    "title": "Activate OpeningMaster",
+    "lead": "Use this page as the dedicated starting point for plugin activation and checkout. It shows the current machine identifier and routes the user into the correct purchase flow.",
+    "machineTitle": "Current machine",
+    "machineLead": "Copy the machine ID from the plugin palette or open this page directly from the plugin so it is filled in automatically.",
+    "machineLabel": "Machine ID",
+    "machineMissing": "Machine ID was not provided yet.",
+    "nextTitle": "What happens next",
+    "steps": [
+      "Open this page from the plugin to transfer the machine ID automatically.",
+      "Choose the purchase flow you need: Russia / Robokassa or international checkout.",
+      "After payment you will receive a license key by email and paste it back into the activation palette."
+    ],
+    "checkoutTitle": "Choose checkout",
+    "checkoutLead": "The payment flow will be split here. For now both buttons lead into the current Nordlab site so we can wire up the final backend step by step.",
+    "buyRu": "Continue with Russian checkout",
+    "buyGlobal": "Continue with international checkout",
+    "needInvoice": "Need a manual invoice",
+    "helpTitle": "Need help first",
+    "helpLead": "If the plugin does not open this page with the machine ID yet, or if you need a manual activation flow, contact us directly.",
+    "helpCta": "Contact support"
   },
   "manufacturers": {
     "title": "GDL libraries for manufacturers",

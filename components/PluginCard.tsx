@@ -15,12 +15,21 @@ export default function PluginCard({ block, locale }: PluginCardProps) {
   const versions = block.compatibility.map((r) => r.version).join(' · ')
   const previewVideo = block.videos?.[0]
   const previewImages = !previewVideo ? block.images : undefined
+  const ctaHref = block.download?.url ?? `/shop?plugin=${encodeURIComponent(block.slug)}`
+  const ctaLabel = block.download
+    ? locale === 'ru'
+      ? 'Скачать'
+      : 'Download'
+    : locale === 'ru'
+      ? 'Купить'
+      : 'Buy'
 
   return (
-    <Link
-      href={`/plugins/${block.slug}`}
-      className="group flex flex-col border border-hairline bg-paper no-underline transition-colors duration-150 hover:border-pen"
-    >
+    <article className="group flex flex-col border border-hairline bg-paper transition-colors duration-150 hover:border-pen">
+      <Link
+        href={`/plugins/${block.slug}`}
+        className="flex flex-col no-underline"
+      >
       <div className="flex aspect-video items-center justify-center overflow-hidden border-b border-hairline bg-paper">
         {previewVideo ? (
           <PluginCardPreview src={previewVideo.src} poster={previewVideo.poster} />
@@ -54,6 +63,26 @@ export default function PluginCard({ block, locale }: PluginCardProps) {
         </div>
         <p className="mt-auto font-mono text-xs text-graphite">AC {versions}</p>
       </div>
-    </Link>
+      </Link>
+      <div className="px-5 pb-5">
+        {block.download ? (
+          <a
+            href={ctaHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center bg-pen px-4 py-2 font-mono text-xs text-paper no-underline transition-opacity duration-150 hover:opacity-90 hover:no-underline"
+          >
+            {ctaLabel}
+          </a>
+        ) : (
+          <Link
+            href={ctaHref}
+            className="inline-flex items-center border border-hairline px-4 py-2 font-mono text-xs text-ink no-underline transition-colors duration-150 hover:border-pen hover:text-pen"
+          >
+            {ctaLabel}
+          </Link>
+        )}
+      </div>
+    </article>
   )
 }

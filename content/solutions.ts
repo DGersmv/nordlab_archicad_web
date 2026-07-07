@@ -9,7 +9,7 @@ export interface SolutionMeta {
 export const solutions: Record<SolutionId, SolutionMeta> = {
   'dwg-mesh': {
     id: 'dwg-mesh',
-    name: 'DWG-mesh',
+    name: 'MeshMaster',
     changelog: [
       {
         date: '2025-11-12',
@@ -20,6 +20,11 @@ export const solutions: Record<SolutionId, SolutionMeta> = {
         },
       },
     ],
+  },
+  'opening-master': {
+    id: 'opening-master',
+    name: 'OpeningMaster',
+    changelog: [],
   },
   'gdl-to-mesh': {
     id: 'gdl-to-mesh',

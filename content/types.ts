@@ -6,6 +6,7 @@ export type LocalizedList = Record<Locale, string[]>
 
 export type SolutionId =
   | 'dwg-mesh'
+  | 'opening-master'
   | 'gdl-to-mesh'
   | 'shellset'
   | 'tableset'

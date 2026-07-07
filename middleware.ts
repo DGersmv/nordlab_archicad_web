@@ -34,6 +34,25 @@ export default function middleware(request: NextRequest) {
   const requestHeaders = withSanitizedRequest(request)
   const { pathname } = request.nextUrl
   const segment = pathname.split('/')[1]
+  const host = request.headers.get('host') ?? ''
+
+  if (host === 'pay.nordlab.net') {
+    if (pathname === '/' || pathname === '/en') {
+      const url = request.nextUrl.clone()
+      url.pathname = '/activate'
+      const response = NextResponse.redirect(url)
+      sanitizeHeaders(response.headers)
+      return response
+    }
+
+    if (pathname === '/ru') {
+      const url = request.nextUrl.clone()
+      url.pathname = '/ru/activate'
+      const response = NextResponse.redirect(url)
+      sanitizeHeaders(response.headers)
+      return response
+    }
+  }
 
   if (isLocale(segment)) {
     if (segment === defaultLocale) {

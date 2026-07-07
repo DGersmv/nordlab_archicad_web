@@ -22,6 +22,12 @@ export default async function Hero() {
             {t('browsePlugins')}
           </Link>
           <Link
+            href="/shop"
+            className="border border-hairline px-6 py-3 font-mono text-sm text-ink no-underline transition-colors duration-150 hover:border-pen hover:text-pen hover:no-underline"
+          >
+            {t('buyPlugins')}
+          </Link>
+          <Link
             href="/custom"
             className="border border-hairline px-6 py-3 font-mono text-sm text-ink no-underline transition-colors duration-150 hover:border-pen hover:text-pen hover:no-underline"
           >

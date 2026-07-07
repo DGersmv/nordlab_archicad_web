@@ -6,6 +6,8 @@ const baseUrl = siteLinks.siteUrl
 
 const staticPaths = [
   '',
+  '/activate',
+  '/shop',
   '/for-manufacturers',
   '/custom',
   '/about',

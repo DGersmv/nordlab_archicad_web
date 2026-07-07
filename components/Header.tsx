@@ -5,6 +5,7 @@ import { useLocale, useTranslations } from 'next-intl'
 
 const navItems = [
   { key: 'plugins', href: '/#plugins' as const },
+  { key: 'shop', href: '/shop' as const },
   { key: 'manufacturers', href: '/for-manufacturers' as const },
   { key: 'custom', href: '/custom' as const },
   { key: 'about', href: '/about' as const },
