@@ -114,7 +114,7 @@ async function sendEmail(subject: string, text: string): Promise<void> {
   const user = process.env.SMTP_USER
   const pass = process.env.SMTP_PASS
   const from = process.env.SMTP_FROM?.trim() || user
-  const to = process.env.SMTP_TO || 'admin@nordlab.pro'
+  const to = process.env.SMTP_TO || 'admin@nordlab.net'
 
   if (!user || !pass || !from) throw new Error('SMTP not configured')
 

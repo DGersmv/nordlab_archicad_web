@@ -169,7 +169,7 @@ async function sendEmail(
   const pass = process.env.SMTP_PASS
   // Zoho only allows relay from the authenticated mailbox or verified aliases.
   const from = process.env.SMTP_FROM?.trim() || user
-  const to = process.env.SMTP_TO || 'admin@nordlab.pro'
+  const to = process.env.SMTP_TO || 'admin@nordlab.net'
 
   if (!user || !pass || !from) throw new Error('SMTP not configured')
 
