@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
-cd "$(dirname "$0")/.."
+cd /var/www/nordlab
 git pull origin main
-docker compose build
-docker compose up -d
-docker image prune -f
-echo "Nordlab updated. Check: curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:3000/"
+npm ci
+npm run build
+pm2 restart nordlab
+echo "Nordlab updated. Check: curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:3001/"

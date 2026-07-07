@@ -20,9 +20,9 @@
 
 | Тип | Host / Name | Value | TTL |
 |-----|-------------|-------|-----|
-| **A** | `@` (nordlab.net) | `YOUR_SERVER_IP` | 3600 |
-| **A** | `www` | `YOUR_SERVER_IP` | 3600 |
-| **A** | `pay` | `YOUR_SERVER_IP` | 3600 |
+| **A** | `@` (nordlab.net) | `213.171.29.225` | 3600 |
+| **A** | `www` | `213.171.29.225` | 3600 |
+| **A** | `pay` | `213.171.29.225` | 3600 |
 
 `pay.nordlab.net` обслуживается тем же приложением (middleware перенаправляет на `/activate`).
 
