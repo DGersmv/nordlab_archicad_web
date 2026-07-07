@@ -24,9 +24,6 @@ export default async function Footer() {
               {t('inn')}: {company.inn} · {t('ogrn')}: {company.ogrn}
             </p>
             <p>{company.address}</p>
-            <p>
-              {t('payment')}: {company.paymentProvider}
-            </p>
           </div>
         </div>
 

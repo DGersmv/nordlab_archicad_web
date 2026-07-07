@@ -193,8 +193,7 @@
     "refund": "Refund Policy",
     "terms": "Terms of Use",
     "inn": "INN",
-    "ogrn": "OGRN",
-    "payment": "Payments via"
+    "ogrn": "OGRN"
   },
   "download": {
     "title": "Download Nordlab plugins",
