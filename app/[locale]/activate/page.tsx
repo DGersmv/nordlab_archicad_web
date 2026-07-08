@@ -1,28 +1,51 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import DimensionRule from '@/components/DimensionRule'
 import ContactCTA from '@/components/ContactCTA'
-import { Link } from '@/i18n/navigation'
+import { getPluginBySlug } from '@/content/plugins'
 import type { Locale } from '@/content/types'
+import { Link } from '@/i18n/navigation'
+import { pickLocalized } from '@/lib/locale'
 
 type Props = {
   params: { locale: Locale }
-  searchParams?: { machineId?: string }
+  searchParams?: { machineId?: string; plugin?: string }
+}
+
+export async function generateMetadata({ params: { locale }, searchParams }: Props) {
+  const t = await getTranslations({ locale, namespace: 'activate' })
+  const pluginSlug = searchParams?.plugin?.trim().toLowerCase()
+  const plugin = pluginSlug ? getPluginBySlug(pluginSlug) : undefined
+  const pluginName = plugin ? pickLocalized(plugin.name, locale) : null
+
+  return {
+    title: pluginName ? t('titleNamed', { plugin: pluginName }) : t('titleGeneric'),
+  }
 }
 
 export default async function ActivatePage({ params: { locale }, searchParams }: Props) {
   setRequestLocale(locale)
   const t = await getTranslations('activate')
   const machineId = searchParams?.machineId?.trim()
-  const shopHref = machineId
-    ? (`/shop?machineId=${encodeURIComponent(machineId)}#pay-form` as const)
-    : '/shop#pay-form'
+  const pluginSlug = searchParams?.plugin?.trim().toLowerCase()
+  const plugin = pluginSlug ? getPluginBySlug(pluginSlug) : undefined
+  const pluginName = plugin ? pickLocalized(plugin.name, locale) : null
+
+  const shopParams = new URLSearchParams()
+  if (pluginSlug && plugin) shopParams.set('plugin', pluginSlug)
+  if (machineId) shopParams.set('machineId', machineId)
+  const shopQuery = shopParams.toString()
+  const shopHref = shopQuery ? (`/shop?${shopQuery}#pay-form` as const) : '/shop#pay-form'
 
   return (
     <div className="site-container py-12 md:py-16">
       <header className="max-w-4xl">
         <p className="font-mono text-xs uppercase tracking-wide text-graphite">{t('eyebrow')}</p>
-        <h1 className="mt-3 text-display-xl text-ink">{t('title')}</h1>
-        <p className="mt-4 max-w-3xl text-lead text-graphite">{t('lead')}</p>
+        <h1 className="mt-3 text-display-xl text-ink">
+          {pluginName ? t('titleNamed', { plugin: pluginName }) : t('titleGeneric')}
+        </h1>
+        <p className="mt-4 max-w-3xl text-lead text-graphite">
+          {pluginName ? t('leadNamed', { plugin: pluginName }) : t('lead')}
+        </p>
       </header>
 
       <DimensionRule label={locale === 'ru' ? 'активация' : 'activation'} className="max-w-4xl" />
@@ -50,8 +73,14 @@ export default async function ActivatePage({ params: { locale }, searchParams }:
               ))}
             </ol>
             <div className="mt-6 border border-hairline bg-paper p-4">
-              <p className="font-mono text-xs uppercase tracking-wide text-graphite">OpeningMaster price</p>
-              <p className="mt-2 font-mono text-sm text-ink">3000 RUB / 30 EUR</p>
+              <p className="font-mono text-xs uppercase tracking-wide text-graphite">
+                {pluginName ? t('priceLabelNamed', { plugin: pluginName }) : t('priceLabel')}
+              </p>
+              <p className="mt-2 font-mono text-sm text-ink">
+                {plugin
+                  ? `${plugin.price.rub.toLocaleString(locale === 'ru' ? 'ru-RU' : 'en-US')} ₽ / ${plugin.price.eur} EUR`
+                  : t('priceFallback')}
+              </p>
             </div>
           </div>
         </section>
