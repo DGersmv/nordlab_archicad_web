@@ -90,6 +90,30 @@ export async function getOrderByInvId(invId: number): Promise<PaymentOrder | nul
   return file.orders.find((order) => order.invId === invId) ?? null
 }
 
+export async function getPaidOrderByMachineAndPlugin(
+  pluginSlug: LicensePluginSlug,
+  machineId: string,
+): Promise<PaymentOrder | null> {
+  const normalizedMachineId = machineId.trim().toUpperCase()
+  const file = await readOrdersFile()
+
+  const matches = file.orders.filter(
+    (order) =>
+      order.pluginSlug === pluginSlug &&
+      order.machineId === normalizedMachineId &&
+      order.status === 'paid' &&
+      order.licenseKey,
+  )
+
+  if (matches.length === 0) return null
+
+  return matches.sort((a, b) => {
+    const aTime = a.paidAt ?? a.createdAt
+    const bTime = b.paidAt ?? b.createdAt
+    return bTime.localeCompare(aTime)
+  })[0]
+}
+
 export async function markOrderPaid(invId: number, licenseKey: string): Promise<PaymentOrder | null> {
   const file = await readOrdersFile()
   const order = file.orders.find((entry) => entry.invId === invId)

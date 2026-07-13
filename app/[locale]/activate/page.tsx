@@ -1,10 +1,13 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import DimensionRule from '@/components/DimensionRule'
 import ContactCTA from '@/components/ContactCTA'
+import ExistingLicensePanel from '@/components/ExistingLicensePanel'
 import { getPluginBySlug } from '@/content/plugins'
 import type { Locale } from '@/content/types'
 import { Link } from '@/i18n/navigation'
+import { isLicensePluginSlug } from '@/lib/license'
 import { pickLocalized } from '@/lib/locale'
+import { getPaidOrderByMachineAndPlugin } from '@/lib/orders'
 
 type Props = {
   params: { locale: Locale }
@@ -30,6 +33,11 @@ export default async function ActivatePage({ params: { locale }, searchParams }:
   const plugin = pluginSlug ? getPluginBySlug(pluginSlug) : undefined
   const pluginName = plugin ? pickLocalized(plugin.name, locale) : null
 
+  const paidOrder =
+    machineId && pluginSlug && isLicensePluginSlug(pluginSlug)
+      ? await getPaidOrderByMachineAndPlugin(pluginSlug, machineId)
+      : null
+
   const shopParams = new URLSearchParams()
   if (pluginSlug && plugin) shopParams.set('plugin', pluginSlug)
   if (machineId) shopParams.set('machineId', machineId)
@@ -44,7 +52,11 @@ export default async function ActivatePage({ params: { locale }, searchParams }:
           {pluginName ? t('titleNamed', { plugin: pluginName }) : t('titleGeneric')}
         </h1>
         <p className="mt-4 max-w-3xl text-lead text-graphite">
-          {pluginName ? t('leadNamed', { plugin: pluginName }) : t('lead')}
+          {paidOrder
+            ? t('leadPaidNamed', { plugin: pluginName ?? pluginSlug ?? '' })
+            : pluginName
+              ? t('leadNamed', { plugin: pluginName })
+              : t('lead')}
         </p>
       </header>
 
@@ -63,48 +75,61 @@ export default async function ActivatePage({ params: { locale }, searchParams }:
             </div>
           </div>
 
-          <div className="border border-hairline p-6 md:p-8">
-            <h2 className="text-display text-ink">{t('nextTitle')}</h2>
-            <ol className="mt-6 space-y-4 border-l border-hairline pl-5">
-              {(t.raw('steps') as string[]).map((step) => (
-                <li key={step} className="text-ink">
-                  {step}
-                </li>
-              ))}
-            </ol>
-            <div className="mt-6 border border-hairline bg-paper p-4">
-              <p className="font-mono text-xs uppercase tracking-wide text-graphite">
-                {pluginName ? t('priceLabelNamed', { plugin: pluginName }) : t('priceLabel')}
-              </p>
-              <p className="mt-2 font-mono text-sm text-ink">
-                {plugin
-                  ? `${plugin.price.rub.toLocaleString(locale === 'ru' ? 'ru-RU' : 'en-US')} ₽ / ${plugin.price.eur} EUR`
-                  : t('priceFallback')}
-              </p>
+          {!paidOrder ? (
+            <div className="border border-hairline p-6 md:p-8">
+              <h2 className="text-display text-ink">{t('nextTitle')}</h2>
+              <ol className="mt-6 space-y-4 border-l border-hairline pl-5">
+                {(t.raw('steps') as string[]).map((step) => (
+                  <li key={step} className="text-ink">
+                    {step}
+                  </li>
+                ))}
+              </ol>
+              <div className="mt-6 border border-hairline bg-paper p-4">
+                <p className="font-mono text-xs uppercase tracking-wide text-graphite">
+                  {pluginName ? t('priceLabelNamed', { plugin: pluginName }) : t('priceLabel')}
+                </p>
+                <p className="mt-2 font-mono text-sm text-ink">
+                  {plugin
+                    ? `${plugin.price.rub.toLocaleString(locale === 'ru' ? 'ru-RU' : 'en-US')} ₽ / ${plugin.price.eur} EUR`
+                    : t('priceFallback')}
+                </p>
+              </div>
             </div>
-          </div>
+          ) : null}
         </section>
 
         <section className="space-y-6">
-          <div className="border border-hairline p-6 md:p-8">
-            <h2 className="text-display text-ink">{t('checkoutTitle')}</h2>
-            <p className="mt-2 text-graphite">{t('checkoutLead')}</p>
+          {paidOrder && pluginSlug && pluginName && machineId && paidOrder.licenseKey ? (
+            <ExistingLicensePanel
+              pluginSlug={pluginSlug}
+              pluginName={pluginName}
+              machineId={paidOrder.machineId}
+              licenseKey={paidOrder.licenseKey}
+              invoiceId={paidOrder.invId}
+              defaultEmail={paidOrder.email}
+            />
+          ) : (
+            <div className="border border-hairline p-6 md:p-8">
+              <h2 className="text-display text-ink">{t('checkoutTitle')}</h2>
+              <p className="mt-2 text-graphite">{t('checkoutLead')}</p>
 
-            <div className="mt-6 grid gap-4">
-              <Link
-                href={shopHref}
-                className="inline-flex items-center justify-center bg-pen px-6 py-3 font-mono text-sm text-paper no-underline transition-opacity duration-150 hover:opacity-90 hover:no-underline"
-              >
-                {t('buyRu')}
-              </Link>
-              <Link
-                href="/custom"
-                className="inline-flex items-center justify-center border border-hairline px-6 py-3 font-mono text-sm text-ink no-underline transition-colors duration-150 hover:border-pen hover:text-pen hover:no-underline"
-              >
-                {t('needInvoice')}
-              </Link>
+              <div className="mt-6 grid gap-4">
+                <Link
+                  href={shopHref}
+                  className="inline-flex items-center justify-center bg-pen px-6 py-3 font-mono text-sm text-paper no-underline transition-opacity duration-150 hover:opacity-90 hover:no-underline"
+                >
+                  {t('buyRu')}
+                </Link>
+                <Link
+                  href="/custom"
+                  className="inline-flex items-center justify-center border border-hairline px-6 py-3 font-mono text-sm text-ink no-underline transition-colors duration-150 hover:border-pen hover:text-pen hover:no-underline"
+                >
+                  {t('needInvoice')}
+                </Link>
+              </div>
             </div>
-          </div>
+          )}
 
           <div className="border border-hairline p-6 md:p-8">
             <h2 className="text-display text-ink">{t('helpTitle')}</h2>

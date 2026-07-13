@@ -1,11 +1,11 @@
 'use client'
 
-import { FormEvent, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 import { useLocale, useTranslations } from 'next-intl'
 import PrivacyConsent from '@/components/PrivacyConsent'
 import { Link } from '@/i18n/navigation'
 
-type RobokassaPayFormProps = {
+type CloudPaymentsPayFormProps = {
   plugins: Array<{
     slug: string
     name: string
@@ -17,11 +17,71 @@ type RobokassaPayFormProps = {
 
 type ErrorCode = 'validation' | 'not_configured' | 'server'
 
-export default function RobokassaPayForm({
+type InitResponse = {
+  publicId?: string
+  amount?: number
+  currency?: string
+  description?: string
+  invoiceId?: string
+  accountId?: string
+  email?: string
+  data?: Record<string, string>
+  successRedirectUrl?: string
+  failRedirectUrl?: string
+  error?: ErrorCode
+}
+
+type CloudPaymentsWidget = {
+  pay: (
+    method: 'charge' | 'auth',
+    options: Record<string, unknown>,
+    callbacks?: {
+      onSuccess?: string | ((options: unknown) => void)
+      onFail?: string | ((reason: string, options: unknown) => void)
+      onComplete?: (paymentResult: unknown, options: unknown) => void
+    },
+  ) => void
+}
+
+declare global {
+  interface Window {
+    cp?: {
+      CloudPayments: new (options?: { language?: string }) => CloudPaymentsWidget
+    }
+  }
+}
+
+const WIDGET_SCRIPT_ID = 'cloudpayments-widget'
+const WIDGET_SCRIPT_SRC = 'https://widget.cloudpayments.ru/bundles/cloudpayments'
+
+function loadCloudPaymentsScript(): Promise<void> {
+  if (typeof window === 'undefined') return Promise.resolve()
+  if (window.cp?.CloudPayments) return Promise.resolve()
+
+  const existing = document.getElementById(WIDGET_SCRIPT_ID) as HTMLScriptElement | null
+  if (existing) {
+    return new Promise((resolve, reject) => {
+      existing.addEventListener('load', () => resolve(), { once: true })
+      existing.addEventListener('error', () => reject(new Error('widget_load_failed')), { once: true })
+    })
+  }
+
+  return new Promise((resolve, reject) => {
+    const script = document.createElement('script')
+    script.id = WIDGET_SCRIPT_ID
+    script.src = WIDGET_SCRIPT_SRC
+    script.async = true
+    script.onload = () => resolve()
+    script.onerror = () => reject(new Error('widget_load_failed'))
+    document.head.appendChild(script)
+  })
+}
+
+export default function CloudPaymentsPayForm({
   plugins,
   initialPluginSlug,
   machineId: initialMachineId,
-}: RobokassaPayFormProps) {
+}: CloudPaymentsPayFormProps) {
   const t = useTranslations('shop.pay')
   const locale = useLocale()
   const [pluginSlug, setPluginSlug] = useState(
@@ -35,6 +95,12 @@ export default function RobokassaPayForm({
   const [loading, setLoading] = useState(false)
   const [errorCode, setErrorCode] = useState<ErrorCode | null>(null)
 
+  useEffect(() => {
+    loadCloudPaymentsScript().catch(() => {
+      // Widget loads on submit if prefetch failed.
+    })
+  }, [])
+
   const selectedPlugin = plugins.find((plugin) => plugin.slug === pluginSlug)
   const inputClass =
     'w-full border border-hairline bg-paper px-4 py-2.5 text-ink placeholder:text-graphite focus:border-pen focus:outline-none'
@@ -46,7 +112,7 @@ export default function RobokassaPayForm({
     setErrorCode(null)
 
     try {
-      const response = await fetch('/api/payment/robokassa/init', {
+      const response = await fetch('/api/payment/cloudpayments/init', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -58,18 +124,43 @@ export default function RobokassaPayForm({
         }),
       })
 
-      const data = (await response.json()) as {
-        redirectUrl?: string
-        error?: ErrorCode
-      }
+      const data = (await response.json()) as InitResponse
 
-      if (!response.ok || !data.redirectUrl) {
+      if (!response.ok || !data.publicId || !data.amount || !data.invoiceId) {
         setErrorCode(data.error ?? 'server')
         setLoading(false)
         return
       }
 
-      window.location.href = data.redirectUrl
+      await loadCloudPaymentsScript()
+      const Widget = window.cp?.CloudPayments
+      if (!Widget) {
+        setErrorCode('server')
+        setLoading(false)
+        return
+      }
+
+      const widget = new Widget({ language: locale === 'ru' ? 'ru-RU' : 'en-US' })
+      widget.pay(
+        'charge',
+        {
+          publicId: data.publicId,
+          description: data.description,
+          amount: data.amount,
+          currency: data.currency ?? 'RUB',
+          invoiceId: data.invoiceId,
+          accountId: data.accountId ?? email,
+          email: data.email ?? email,
+          skin: 'mini',
+          data: data.data,
+        },
+        {
+          onSuccess: data.successRedirectUrl ?? undefined,
+          onFail: data.failRedirectUrl ?? undefined,
+        },
+      )
+
+      setLoading(false)
     } catch {
       setErrorCode('server')
       setLoading(false)

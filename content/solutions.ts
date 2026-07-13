@@ -24,7 +24,16 @@ export const solutions: Record<SolutionId, SolutionMeta> = {
   'opening-master': {
     id: 'opening-master',
     name: 'OpeningMaster',
-    changelog: [],
+    changelog: [
+      {
+        date: '2026-07-13',
+        version: '2.0.0',
+        text: {
+          en: 'Reworked opening engine: NL Universal Opening with polygon contours, arc edges, shape transfer from GS windows, and improved propagation to finish walls.',
+          ru: 'Переработан движок проёмов: NL Universal Opening с полигональным контуром, дуговыми рёбрами, переносом формы из окон GS и улучшенной пропагацией на отделочные стены.',
+        },
+      },
+    ],
   },
   'gdl-to-mesh': {
     id: 'gdl-to-mesh',

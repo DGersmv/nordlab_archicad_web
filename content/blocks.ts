@@ -114,31 +114,36 @@ export const featureBlocks: FeatureBlock[] = [
       ru: 'OpeningMaster',
     },
     tagline: {
-      en: 'Propagates openings from core walls into glued finish walls and keeps them in sync through a live control palette.',
-      ru: 'Пропагирует проёмы из core-стен в примыкающие отделочные стены и держит их в синхронизации через live-палитру управления.',
+      en: 'Converts windows into NL Universal Opening with the real wall-hole contour, then propagates and keeps those openings in sync across glued finish walls.',
+      ru: 'Конвертирует окна в NL Universal Opening с настоящим контуром проёма, затем пропагирует и держит их в синхронизации на примыкающих отделочных стенах.',
     },
     whatItDoes: {
       en: [
-        'Analyzes the current wall selection and detects core walls, finish targets, and already propagated openings',
-        'Propagates openings from parent walls into adjacent glued finish walls rather than simple one-to-one copying',
-        'Provides palette actions for update, propagate, refresh sync, and delete propagated openings',
-        'Automatically re-syncs propagated openings when the parent opening changes and removes children when the parent is deleted',
-        'Tracks propagated children with classification and attached user data, and shows grouped wall/opening status in the palette',
+        'Creates NL Universal Opening — a custom GDL window subtype with a true polygon wall hole up to 20 vertices, arc edges, niches, and editable plan/3D hotspots',
+        'Converts standard GS windows while preserving the real opening shape: rectangle, segment arch, elliptical top, quarter-round, half-round, or a custom contour extracted from wall geometry',
+        'Transfers shape parameters from library addPars (iWindowShape, openingArchHeight, gs_shoulderHeight, and related GS fields) instead of silently falling back to a plain rectangle',
+        'Propagates openings from core walls into adjacent glued finish walls, including vertical clipping when a finish segment covers only part of the parent opening',
+        'Keeps propagated openings in sync when the parent window changes and removes children when the parent is deleted; palette shows core/finish status and ready actions',
       ],
       ru: [
-        'Анализирует текущее выделение стен и определяет core-стены, целевые отделочные стены и уже созданные propagated openings',
-        'Пропагирует проёмы из родительских стен в примыкающие glued finish walls, а не просто копирует один к одному',
-        'Даёт в палитре действия update, propagate, refresh sync и delete propagated openings',
-        'Автоматически пересинхронизирует propagated openings при изменении родительского проёма и удаляет дочерние при удалении родителя',
-        'Хранит propagated children через classification и user data и показывает сгруппированное состояние стен и проёмов в палитре',
+        'Создаёт NL Universal Opening — собственный GDL-объект (субтип Window) с настоящим полигональным проёмом до 20 вершин, дуговыми рёбрами, нишами и редактируемыми хотспотами на плане и в 3D',
+        'Конвертирует стандартные окна GS с сохранением реальной формы проёма: прямоугольник, сегментная арка, эллиптический верх, четверть круга, полукруг или произвольный контур из геометрии стены',
+        'Переносит параметры формы из addPars библиотеки (iWindowShape, openingArchHeight, gs_shoulderHeight и связанные поля GS), а не подменяет сложную геометрию молчаливым прямоугольником',
+        'Пропагирует проёмы из core-стен в примыкающие glued finish walls, включая вертикальный клип, когда отделочный сегмент перекрывает только часть родительского проёма',
+        'Автоматически пересинхронизирует propagated openings при изменении родительского окна и удаляет дочерние при удалении родителя; палитра показывает состояние core/finish и доступные действия',
       ],
     },
     solutions: ['opening-master'],
     compatibility: pluginCompatibility,
-    mediaPlaceholder: {
-      en: 'Opening propagation palette preview coming soon',
-      ru: 'Превью палитры пропагации проёмов будет добавлено позже',
-    },
+    videos: [
+      {
+        src: '/media/openingmaster/preview.mp4',
+        caption: {
+          en: 'NL Universal Opening: convert a window, propagate the real wall-hole contour to finish walls, and keep openings in sync',
+          ru: 'NL Universal Opening: конвертация окна, пропагация настоящего контура проёма на отделочные стены и синхронизация',
+        },
+      },
+    ],
     download: {
       url: '/download#openingmaster',
       label: {

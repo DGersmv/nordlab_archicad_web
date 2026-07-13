@@ -1,5 +1,6 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
+import { getBlockBySlug } from '@/content/blocks'
 import { company } from '@/content/company'
 import { pluginDownloads } from '@/content/downloads'
 import { pickLocalized } from '@/lib/locale'
@@ -24,7 +25,11 @@ export default async function DownloadPage({ params: { locale }, searchParams }:
       </header>
 
       <div className="mt-12 space-y-10">
-        {pluginDownloads.map((entry) => (
+        {pluginDownloads.map((entry) => {
+          const block = getBlockBySlug(entry.slug)
+          const description = block ? pickLocalized(block.tagline, locale) : null
+
+          return (
           <section
             key={entry.slug}
             id={entry.slug}
@@ -33,6 +38,9 @@ export default async function DownloadPage({ params: { locale }, searchParams }:
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div>
                 <h2 className="text-display text-ink">{pickLocalized(entry.name, locale)}</h2>
+                {description ? (
+                  <p className="mt-3 max-w-3xl text-sm leading-relaxed text-graphite">{description}</p>
+                ) : null}
                 <p className="mt-2 text-sm text-graphite">
                   <Link href={`/plugins/${entry.slug}`} className="text-pen no-underline hover:underline">
                     {t('productPage')}
@@ -74,7 +82,8 @@ export default async function DownloadPage({ params: { locale }, searchParams }:
               </table>
             </div>
           </section>
-        ))}
+          )
+        })}
       </div>
 
       <aside className="mt-12 max-w-3xl border border-hairline p-6 text-sm text-graphite">

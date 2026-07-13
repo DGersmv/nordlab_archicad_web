@@ -1,20 +1,31 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { company } from '@/content/company'
 import { getPluginBySlug } from '@/content/plugins'
 import { isLicensePluginSlug } from '@/lib/license'
-import { createOrder } from '@/lib/orders'
-import { buildPaymentUrl, getRobokassaConfig } from '@/lib/robokassa'
+import { createOrder, getPaidOrderByMachineAndPlugin } from '@/lib/orders'
+import { getCloudPaymentsConfig } from '@/lib/cloudpayments'
 
 export const runtime = 'nodejs'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
+function paymentRedirectPath(
+  locale: 'ru' | 'en',
+  path: '/payment/success' | '/payment/fail',
+  query?: Record<string, string>,
+): string {
+  const prefix = locale === 'ru' ? '/ru' : ''
+  const qs = query ? `?${new URLSearchParams(query).toString()}` : ''
+  return `${company.siteUrl}${prefix}${path}${qs}`
+}
+
 export async function POST(request: NextRequest) {
-  const config = getRobokassaConfig()
+  const config = getCloudPaymentsConfig()
   if (!config) {
     return NextResponse.json(
       {
         error: 'not_configured',
-        message: 'Set ROBOKASSA_MERCHANT_LOGIN and test or production passwords in .env',
+        message: 'Set CLOUDPAYMENTS_PUBLIC_ID and CLOUDPAYMENTS_API_SECRET in .env',
       },
       { status: 503 },
     )
@@ -40,11 +51,15 @@ export async function POST(request: NextRequest) {
       ? (body as { email: string }).email.trim().toLowerCase()
       : ''
   const privacyConsent = (body as { privacyConsent?: unknown }).privacyConsent
-  const locale =
-    (body as { locale?: unknown }).locale === 'en' ? 'en' : 'ru'
+  const locale = (body as { locale?: unknown }).locale === 'en' ? 'en' : 'ru'
 
   if (!isLicensePluginSlug(pluginSlug) || !machineId || !EMAIL_RE.test(email) || privacyConsent !== true) {
     return NextResponse.json({ error: 'validation' }, { status: 400 })
+  }
+
+  const existingPaid = await getPaidOrderByMachineAndPlugin(pluginSlug, machineId)
+  if (existingPaid?.licenseKey) {
+    return NextResponse.json({ error: 'already_paid' }, { status: 409 })
   }
 
   const plugin = getPluginBySlug(pluginSlug)
@@ -67,26 +82,27 @@ export async function POST(request: NextRequest) {
     isTest: config.isTest,
   })
 
-  const customParams = {
-    Shp_email: email,
-    Shp_machine: machineId.toUpperCase(),
-    Shp_plugin: pluginSlug,
-  }
-
-  const redirectUrl = buildPaymentUrl({
-    config,
-    outSum: amount,
-    invId: order.invId,
-    description,
-    email,
-    customParams,
-    culture: locale,
-  })
+  const invoiceId = String(order.invId)
 
   return NextResponse.json({
     success: true,
-    redirectUrl,
-    invId: order.invId,
+    publicId: config.publicId,
+    amount,
+    currency: 'RUB',
+    description,
+    invoiceId,
+    accountId: email,
+    email,
+    data: {
+      plugin: pluginSlug,
+      machine: machineId.toUpperCase(),
+      email,
+    },
+    successRedirectUrl: paymentRedirectPath(locale, '/payment/success', {
+      InvoiceId: invoiceId,
+      email,
+    }),
+    failRedirectUrl: paymentRedirectPath(locale, '/payment/fail'),
     isTest: config.isTest,
   })
 }

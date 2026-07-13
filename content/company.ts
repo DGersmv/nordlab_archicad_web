@@ -1,4 +1,4 @@
-/** Seller details for Robokassa / legal pages (ООО «227.ИНФО»). */
+/** Seller details for CloudPayments / legal pages (ООО «227.ИНФО»). */
 export const company = {
   legalName: 'ООО «227.ИНФО»',
   shortName: 'ООО «227.ИНФО»',
@@ -9,5 +9,5 @@ export const company = {
   email: 'admin@nordlab.net',
   siteUrl: 'https://nordlab.net',
   payUrl: 'https://pay.nordlab.net',
-  paymentProvider: 'Robokassa',
+  paymentProvider: 'CloudPayments',
 } as const

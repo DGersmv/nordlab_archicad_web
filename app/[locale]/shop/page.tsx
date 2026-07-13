@@ -2,14 +2,17 @@ import type { Metadata } from 'next'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import DimensionRule from '@/components/DimensionRule'
 import PluginPurchaseForm from '@/components/PluginPurchaseForm'
-import RobokassaPayForm from '@/components/RobokassaPayForm'
+import CloudPaymentsPayForm from '@/components/CloudPaymentsPayForm'
 import ContactCTA from '@/components/ContactCTA'
 import { getFeatureBlocks } from '@/content/plugins'
 import { company } from '@/content/company'
 import type { Locale } from '@/content/types'
 import { Link, getPathname } from '@/i18n/navigation'
 import { pickLocalized } from '@/lib/locale'
-import { isRobokassaConfigured } from '@/lib/robokassa'
+import ExistingLicensePanel from '@/components/ExistingLicensePanel'
+import { isLicensePluginSlug } from '@/lib/license'
+import { getPaidOrderByMachineAndPlugin } from '@/lib/orders'
+import { isCloudPaymentsConfigured } from '@/lib/cloudpayments'
 
 type Props = {
   params: { locale: Locale }
@@ -45,7 +48,16 @@ export default async function ShopPage({ params: { locale }, searchParams }: Pro
   const highlights = t.raw('highlights') as string[]
   const trustPoints = t.raw('trustPoints') as string[]
   const machineId = searchParams?.machineId?.trim()
-  const robokassaReady = isRobokassaConfigured()
+  const cardPaymentReady = isCloudPaymentsConfigured()
+  const paidOrder =
+    machineId &&
+    selectedPluginSlug &&
+    isLicensePluginSlug(selectedPluginSlug)
+      ? await getPaidOrderByMachineAndPlugin(selectedPluginSlug, machineId)
+      : null
+  const paidPluginName = paidOrder
+    ? plugins.find((plugin) => plugin.slug === paidOrder.pluginSlug)?.name ?? paidOrder.pluginSlug
+    : null
   const payPlugins = plugins.map((plugin) => ({
     slug: plugin.slug,
     name: plugin.name,
@@ -60,10 +72,10 @@ export default async function ShopPage({ params: { locale }, searchParams }: Pro
         <p className="mt-4 max-w-3xl text-lead text-graphite">{t('lead')}</p>
         <div className="mt-8 flex flex-wrap gap-3">
           <a
-            href={robokassaReady ? '#pay-form' : '#order-form'}
+            href={cardPaymentReady ? '#pay-form' : '#order-form'}
             className="inline-flex items-center bg-pen px-6 py-3 font-mono text-sm text-paper no-underline transition-opacity duration-150 hover:opacity-90 hover:no-underline"
           >
-            {robokassaReady ? t('payCta') : t('primaryCta')}
+            {cardPaymentReady ? t('payCta') : t('primaryCta')}
           </a>
           <Link
             href="/activate"
@@ -108,10 +120,10 @@ export default async function ShopPage({ params: { locale }, searchParams }: Pro
 
                 <div className="mt-6 flex flex-wrap gap-3">
                   <a
-                    href={`?plugin=${encodeURIComponent(plugin.slug)}${machineId ? `&machineId=${encodeURIComponent(machineId)}` : ''}#${robokassaReady ? 'pay-form' : 'order-form'}`}
+                    href={`?plugin=${encodeURIComponent(plugin.slug)}${machineId ? `&machineId=${encodeURIComponent(machineId)}` : ''}#${cardPaymentReady ? 'pay-form' : 'order-form'}`}
                     className="inline-flex items-center bg-pen px-5 py-2.5 font-mono text-xs text-paper no-underline transition-opacity duration-150 hover:opacity-90 hover:no-underline"
                   >
-                    {robokassaReady ? t('paySelect') : t('selectPaid')}
+                    {cardPaymentReady ? t('paySelect') : t('selectPaid')}
                   </a>
                   <Link
                     href={`/plugins/${plugin.slug}`}
@@ -162,20 +174,33 @@ export default async function ShopPage({ params: { locale }, searchParams }: Pro
               <p className="mt-2 break-all font-mono text-sm text-ink">{machineId}</p>
             </div>
           ) : null}
-          {robokassaReady ? (
-            <div id="pay-form">
-              <RobokassaPayForm
-                plugins={payPlugins}
+          {paidOrder?.licenseKey && selectedPluginSlug && paidPluginName ? (
+            <ExistingLicensePanel
+              pluginSlug={selectedPluginSlug}
+              pluginName={paidPluginName}
+              machineId={paidOrder.machineId}
+              licenseKey={paidOrder.licenseKey}
+              invoiceId={paidOrder.invId}
+              defaultEmail={paidOrder.email}
+            />
+          ) : (
+            <>
+              {cardPaymentReady ? (
+                <div id="pay-form">
+                  <CloudPaymentsPayForm
+                    plugins={payPlugins}
+                    initialPluginSlug={selectedPluginSlug}
+                    machineId={machineId}
+                  />
+                </div>
+              ) : null}
+              <PluginPurchaseForm
+                plugins={plugins}
                 initialPluginSlug={selectedPluginSlug}
                 machineId={machineId}
               />
-            </div>
-          ) : null}
-          <PluginPurchaseForm
-            plugins={plugins}
-            initialPluginSlug={selectedPluginSlug}
-            machineId={machineId}
-          />
+            </>
+          )}
           <ContactCTA compact />
           <aside className="border border-hairline p-5 text-xs text-graphite">
             <p className="font-mono uppercase text-ink">{t('legalTitle')}</p>
