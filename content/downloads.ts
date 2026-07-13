@@ -7,7 +7,7 @@ export type ArchicadBuild = '27' | '28' | '29'
 export interface PluginBuildFile {
   archicad: ArchicadBuild
   filename: string
-  /** Path under /public, e.g. /downloads/ac27/MeshMaster_AC27.apx */
+  /** Download URL tracked by /api/downloads (records stats). */
   href: string
 }
 
@@ -20,7 +20,7 @@ export interface PluginDownloadEntry {
 const ac = (version: ArchicadBuild, filename: string): PluginBuildFile => ({
   archicad: version,
   filename,
-  href: `/downloads/ac${version}/${filename}`,
+  href: `/api/downloads/ac${version}/${filename}`,
 })
 
 export const pluginDownloads: PluginDownloadEntry[] = [

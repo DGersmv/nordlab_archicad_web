@@ -1,28 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { isAdminAuthorized } from '@/lib/admin-auth'
 import { generateLicenseKey, isLicensePluginSlug, LICENSE_PRICES } from '@/lib/license'
 
 export const runtime = 'nodejs'
 
-function getAdminSecret(request: NextRequest): string {
-  const bearer = request.headers.get('authorization')
-  if (bearer?.startsWith('Bearer ')) {
-    return bearer.slice('Bearer '.length).trim()
-  }
-
-  return request.headers.get('x-license-admin-secret')?.trim() || ''
-}
-
 export async function POST(request: NextRequest) {
-  const configuredSecret = process.env.LICENSE_ADMIN_SECRET?.trim()
-  if (!configuredSecret) {
+  if (!process.env.LICENSE_ADMIN_SECRET?.trim()) {
     return NextResponse.json(
       { error: 'not_configured', message: 'LICENSE_ADMIN_SECRET is not configured.' },
       { status: 503 },
     )
   }
 
-  const providedSecret = getAdminSecret(request)
-  if (!providedSecret || providedSecret !== configuredSecret) {
+  if (!isAdminAuthorized(request)) {
     return NextResponse.json({ error: 'forbidden' }, { status: 403 })
   }
 

@@ -1,11 +1,12 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server'
+import ActivateMachinePanel from '@/components/ActivateMachinePanel'
 import DimensionRule from '@/components/DimensionRule'
 import ContactCTA from '@/components/ContactCTA'
 import ExistingLicensePanel from '@/components/ExistingLicensePanel'
 import { getPluginBySlug } from '@/content/plugins'
 import type { Locale } from '@/content/types'
 import { Link } from '@/i18n/navigation'
-import { isLicensePluginSlug } from '@/lib/license'
+import { isLicensePluginSlug, resolvePluginSlugForMachine } from '@/lib/license'
 import { pickLocalized } from '@/lib/locale'
 import { getPaidOrderByMachineAndPlugin } from '@/lib/orders'
 
@@ -29,7 +30,12 @@ export default async function ActivatePage({ params: { locale }, searchParams }:
   setRequestLocale(locale)
   const t = await getTranslations('activate')
   const machineId = searchParams?.machineId?.trim()
-  const pluginSlug = searchParams?.plugin?.trim().toLowerCase()
+  const urlPluginSlug = searchParams?.plugin?.trim().toLowerCase()
+  const pluginSlug = machineId
+    ? resolvePluginSlugForMachine(machineId, urlPluginSlug)
+    : urlPluginSlug && isLicensePluginSlug(urlPluginSlug)
+      ? urlPluginSlug
+      : null
   const plugin = pluginSlug ? getPluginBySlug(pluginSlug) : undefined
   const pluginName = plugin ? pickLocalized(plugin.name, locale) : null
 
@@ -38,11 +44,19 @@ export default async function ActivatePage({ params: { locale }, searchParams }:
       ? await getPaidOrderByMachineAndPlugin(pluginSlug, machineId)
       : null
 
+  const licenseChecked = Boolean(machineId && pluginSlug)
+
   const shopParams = new URLSearchParams()
   if (pluginSlug && plugin) shopParams.set('plugin', pluginSlug)
   if (machineId) shopParams.set('machineId', machineId)
   const shopQuery = shopParams.toString()
   const shopHref = shopQuery ? (`/shop?${shopQuery}#pay-form` as const) : '/shop#pay-form'
+
+  const legalParams = new URLSearchParams()
+  if (pluginSlug) legalParams.set('plugin', pluginSlug)
+  if (machineId) legalParams.set('machineId', machineId)
+  const legalQuery = legalParams.toString()
+  const legalHref = legalQuery ? (`/legal-payment?${legalQuery}` as const) : '/legal-payment'
 
   return (
     <div className="site-container py-12 md:py-16">
@@ -67,12 +81,12 @@ export default async function ActivatePage({ params: { locale }, searchParams }:
           <div className="border border-hairline p-6 md:p-8">
             <h2 className="text-display text-ink">{t('machineTitle')}</h2>
             <p className="mt-2 text-graphite">{t('machineLead')}</p>
-            <div className="mt-5 border border-hairline bg-paper p-4">
-              <p className="font-mono text-xs uppercase tracking-wide text-graphite">{t('machineLabel')}</p>
-              <p className="mt-2 break-all font-mono text-sm text-ink">
-                {machineId || t('machineMissing')}
+            <ActivateMachinePanel initialMachineId={machineId} />
+            {licenseChecked && !paidOrder ? (
+              <p className="mt-5 border border-hairline bg-paper p-4 font-mono text-sm text-graphite" role="status">
+                {t('licenseNotFound')}
               </p>
-            </div>
+            ) : null}
           </div>
 
           {!paidOrder ? (
@@ -122,10 +136,10 @@ export default async function ActivatePage({ params: { locale }, searchParams }:
                   {t('buyRu')}
                 </Link>
                 <Link
-                  href="/custom"
+                  href={legalHref}
                   className="inline-flex items-center justify-center border border-hairline px-6 py-3 font-mono text-sm text-ink no-underline transition-colors duration-150 hover:border-pen hover:text-pen hover:no-underline"
                 >
-                  {t('needInvoice')}
+                  {t('legalPayment')}
                 </Link>
               </div>
             </div>

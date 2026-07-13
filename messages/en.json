@@ -115,8 +115,8 @@
       "total": "Total",
       "submit": "Proceed to payment",
       "submitting": "Redirecting…",
-      "manualFallback": "Need an invoice or another payment method?",
-      "manualLink": "Contact us",
+      "manualFallback": "Need legal entity payment?",
+      "manualLink": "Legal entity payment",
       "errors": {
         "validation": "Choose a plugin, enter Machine ID, and a valid email.",
         "not_configured": "Payments are not configured on this server yet. Please use email or Telegram.",
@@ -160,6 +160,49 @@
       "helpCta": "Get help"
     }
   },
+  "legalPayment": {
+    "metaTitle": "Legal entity payment",
+    "metaDescription": "Request an invoice and Nordlab plugin license for a legal entity. License key is sent after payment.",
+    "eyebrow": "Legal entities",
+    "title": "Legal entity payment",
+    "lead": "Submit a request for an invoice from ООО «227.ИНФО». After payment we will send the license key by email.",
+    "processTitle": "How it works",
+    "steps": [
+      "Fill in the form: company, Machine ID, plugin, and contact email.",
+      "Within 1–2 business days we prepare an invoice and send it to that email.",
+      "After payment is received, we send the license key for the Machine ID.",
+      "Paste the key into the plugin palette in Archicad."
+    ],
+    "feedbackLead": "A confirmation email with these steps will be sent to you. We reply within 1–2 business days at admin@nordlab.net.",
+    "form": {
+      "pluginLabel": "Plugin",
+      "machineLabel": "Machine ID",
+      "machinePlaceholder": "OM1-... / TS1-... / MM1-...",
+      "companyLabel": "Company",
+      "innLabel": "INN",
+      "innPlaceholder": "10 or 12 digits",
+      "contactNameLabel": "Contact person",
+      "emailLabel": "Email for invoice and license key",
+      "phoneLabel": "Phone (optional)",
+      "notesLabel": "Notes",
+      "notesPlaceholder": "Billing details, Archicad version, seat count, and other details.",
+      "submit": "Submit request",
+      "submitting": "Sending…",
+      "successTitle": "Request sent",
+      "successLead": "An instruction email was sent to the address you provided. In short:",
+      "successSteps": [
+        "We will prepare an invoice within 1–2 business days.",
+        "After payment we will send the license key to the same email.",
+        "If we need details, we will reply at admin@nordlab.net."
+      ],
+      "errors": {
+        "validation": "Please fill in the required fields correctly.",
+        "not_configured": "Email is not configured on this server. Write to admin@nordlab.net.",
+        "rate_limit": "Too many requests. Please wait a moment.",
+        "server": "Could not send the request. Try again or email admin@nordlab.net."
+      }
+    }
+  },
   "activate": {
     "eyebrow": "Plugin activation",
     "titleGeneric": "Activate plugin",
@@ -168,23 +211,26 @@
     "leadNamed": "Activate and purchase {plugin}. Your machine ID is filled in automatically when you open this page from the plugin.",
     "leadPaidNamed": "The {plugin} license for this machine is already paid. Copy the key below or send it to your email.",
     "machineTitle": "Current machine",
-    "machineLead": "Copy the machine ID from the plugin palette or open this page directly from the plugin so it is filled in automatically.",
+    "machineLead": "Copy the machine ID from the plugin palette, paste it manually, or open this page from the plugin to fill it in automatically. Then click Check license.",
     "machineLabel": "Machine ID",
-    "machineMissing": "Machine ID was not provided yet.",
+    "machinePlaceholder": "OM1-... / TS1-... / MM1-...",
+    "checkLicense": "Check license",
+    "invalidMachineId": "Enter the machine ID from the plugin palette (OM1-, TS1-, or MM1-).",
+    "licenseNotFound": "No paid license was found for this machine ID. You can continue to checkout on the right.",
     "nextTitle": "What happens next",
     "steps": [
-      "Open this page from the plugin to transfer the machine ID automatically.",
-      "Choose card payment with MIR, Visa, or Mastercard in Russia, or request a manual invoice.",
-      "After payment you will receive a license key by email and paste it back into the activation palette."
+      "Paste the machine ID from the plugin palette or open this page from the plugin.",
+      "Click Check license — if payment already went through, the key will appear on the right.",
+      "If there is no license yet, pay by card or request a manual invoice."
     ],
     "checkoutTitle": "Choose checkout",
-    "checkoutLead": "Pay with MIR, Visa, or Mastercard in Russia, or request a manual invoice.",
+    "checkoutLead": "Pay with MIR, Visa, or Mastercard in Russia, or request legal entity payment.",
     "priceLabel": "License price",
     "priceLabelNamed": "{plugin} price",
     "priceFallback": "3,000 RUB / 30 EUR",
     "buyRu": "Pay by card (MIR, Visa, Mastercard)",
     "buyGlobal": "Continue with international checkout",
-    "needInvoice": "Need a manual invoice",
+    "legalPayment": "Legal entity payment",
     "helpTitle": "Need help first",
     "helpLead": "If the plugin does not open this page with the machine ID yet, or if you need a manual activation flow, contact us directly.",
     "helpCta": "Contact support"
@@ -296,10 +342,7 @@
       "Download the .apx file for your Archicad version.",
       "In Archicad: Add-ons → Add-On Manager → Install, then select the file.",
       "Restart Archicad and open the add-on from the Extensions menu."
-    ],
-    "seller": "Seller",
-    "inn": "INN",
-    "ogrn": "OGRN"
+    ]
   },
   "consent": {
     "label": "I agree to the <privacy>Privacy Policy</privacy> and accept the <offer>Public Offer</offer> terms for personal data processing."

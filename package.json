@@ -9,7 +9,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "license:generate": "node scripts/generate-license.mjs"
+    "license:generate": "node scripts/generate-license.mjs",
+    "report:downloads": "node scripts/send-download-report.mjs"
   },
   "engines": {
     "node": ">=18.18.0"

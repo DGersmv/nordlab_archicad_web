@@ -1,7 +1,6 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
 import { getBlockBySlug } from '@/content/blocks'
-import { company } from '@/content/company'
 import { pluginDownloads } from '@/content/downloads'
 import { pickLocalized } from '@/lib/locale'
 import type { Locale } from '@/content/types'
@@ -93,9 +92,6 @@ export default async function DownloadPage({ params: { locale }, searchParams }:
           <li>{t('installSteps.1')}</li>
           <li>{t('installSteps.2')}</li>
         </ol>
-        <p className="mt-4">
-          {t('seller')}: {company.legalName} · {t('inn')} {company.inn} · {t('ogrn')} {company.ogrn}
-        </p>
       </aside>
     </div>
   )

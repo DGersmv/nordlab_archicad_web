@@ -32,6 +32,24 @@ export function isLicensePluginSlug(value: string): value is LicensePluginSlug {
   return value in LICENSE_PRICES
 }
 
+export function inferPluginSlugFromMachineId(machineId: string): LicensePluginSlug | null {
+  const id = normalizeMachineId(machineId)
+  if (id.startsWith('OM1-')) return 'openingmaster'
+  if (id.startsWith('TS1-')) return 'tableset'
+  if (id.startsWith('MM1-')) return 'meshmaster'
+  return null
+}
+
+export function resolvePluginSlugForMachine(
+  machineId: string,
+  urlPluginSlug?: string,
+): LicensePluginSlug | null {
+  const inferred = inferPluginSlugFromMachineId(machineId)
+  if (inferred) return inferred
+  if (urlPluginSlug && isLicensePluginSlug(urlPluginSlug)) return urlPluginSlug
+  return null
+}
+
 export function generateOpeningMasterLicenseKey(machineId: string): string {
   const normalizedMachineId = normalizeMachineId(machineId)
   const seedA = `${OPENING_MASTER_KEY_SALT}|${normalizedMachineId}|A`

@@ -249,7 +249,16 @@ export default function CloudPaymentsPayForm({
 
       <p className="mt-4 text-xs text-graphite">
         {t('manualFallback')}{' '}
-        <Link href="/custom" className="text-pen underline-offset-4 hover:underline">
+        <Link
+          href={{
+            pathname: '/legal-payment',
+            query: {
+              ...(pluginSlug ? { plugin: pluginSlug } : {}),
+              ...(machineId.trim() ? { machineId: machineId.trim().toUpperCase() } : {}),
+            },
+          }}
+          className="text-pen underline-offset-4 hover:underline"
+        >
           {t('manualLink')}
         </Link>
       </p>
