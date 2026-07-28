@@ -6,8 +6,8 @@ export const featureBlocks: FeatureBlock[] = [
     order: 1,
     slug: 'meshmaster',
     price: {
-      rub: 3000,
-      eur: 30,
+      rub: 1000,
+      eur: 10,
     },
     name: {
       en: 'MeshMaster',
@@ -56,8 +56,8 @@ export const featureBlocks: FeatureBlock[] = [
     order: 2,
     slug: 'tableset',
     price: {
-      rub: 3000,
-      eur: 30,
+      rub: 1000,
+      eur: 10,
     },
     name: {
       en: 'TableSet',
@@ -106,8 +106,8 @@ export const featureBlocks: FeatureBlock[] = [
     order: 3,
     slug: 'openingmaster',
     price: {
-      rub: 3000,
-      eur: 30,
+      rub: 1000,
+      eur: 10,
     },
     name: {
       en: 'OpeningMaster',
