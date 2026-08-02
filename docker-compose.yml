@@ -1,7 +1,32 @@
 services:
-  nordlab:
-    build: .
+  postgres:
+    image: postgres:16-alpine
+    container_name: nordlab-postgres
     restart: unless-stopped
-    env_file: .env
     ports:
-      - '127.0.0.1:3000:3000'
+      - '5434:5432'
+    environment:
+      POSTGRES_USER: nordlab
+      POSTGRES_PASSWORD: nordlab_dev
+      POSTGRES_DB: nordlab
+    volumes:
+      - nordlab_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U nordlab -d nordlab']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Optional full-stack container (prod uses PM2 on VPS instead)
+  # nordlab:
+  #   build: .
+  #   restart: unless-stopped
+  #   env_file: .env
+  #   ports:
+  #     - '127.0.0.1:3000:3000'
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
+
+volumes:
+  nordlab_pgdata:

@@ -7,11 +7,13 @@
     "plugins": "Plugins",
     "download": "Download",
     "shop": "Buy",
+    "cabinet": "Cabinet",
     "manufacturers": "For manufacturers",
     "custom": "Custom development",
     "about": "About",
     "changelog": "Changelog",
-    "contact": "Contact"
+    "contact": "Contact",
+    "login": "Log in"
   },
   "home": {
     "heroTitle": "Archicad tools that work on real projects",
@@ -356,5 +358,164 @@
   "notFound": {
     "message": "Page not found.",
     "home": "← Home"
+  },
+  "auth": {
+    "register": {
+      "metaTitle": "Architect registration",
+      "metaDescription": "Free Nordlab cabinet registration. First object is free.",
+      "eyebrow": "Architect cabinet",
+      "title": "Register",
+      "lead": "Accounts are free. Your first object is free with full features. Next objects are {price} RUB for {months} months of storage.",
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone (optional)",
+      "password": "Password",
+      "passwordHint": "At least 8 characters",
+      "submit": "Send email code",
+      "submitting": "Sending…",
+      "otpLead": "We sent a code to {email}. Enter it to finish registration.",
+      "code": "Code from email",
+      "verify": "Confirm and create account",
+      "verifying": "Checking…",
+      "resend": "Resend code",
+      "back": "Back",
+      "hasAccount": "Already have an account?",
+      "loginLink": "Log in",
+      "errors": {
+        "validation": "Check the form fields.",
+        "email_taken": "This email is already registered.",
+        "invalid_code": "Invalid or expired code.",
+        "captcha_required": "Complete the “I’m not a robot” check.",
+        "captcha_failed": "Captcha failed. Try again.",
+        "rate_limited": "Too many attempts. Please wait.",
+        "email_failed": "Could not send the email. Try again later.",
+        "restart_register": "Please start registration again.",
+        "server": "Could not register. Try again later."
+      }
+    },
+    "login": {
+      "metaTitle": "Cabinet login",
+      "metaDescription": "Sign in to the Nordlab architect cabinet.",
+      "eyebrow": "Cabinet",
+      "title": "Log in",
+      "lead": "Sign in with email and password — then confirm the code from your inbox.",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Send code",
+      "submitting": "Sending…",
+      "otpLead": "Code sent to {email}. Enter it to sign in.",
+      "code": "Code from email",
+      "verify": "Log in",
+      "verifying": "Checking…",
+      "resend": "Resend code",
+      "back": "Back",
+      "noAccount": "No account?",
+      "registerLink": "Register",
+      "errors": {
+        "validation": "Enter email and password.",
+        "invalid_credentials": "Invalid email or password.",
+        "invalid_code": "Invalid or expired code.",
+        "captcha_required": "Complete the “I’m not a robot” check.",
+        "captcha_failed": "Captcha failed. Try again.",
+        "rate_limited": "Too many attempts. Please wait.",
+        "email_failed": "Could not send the email. Try again later.",
+        "server": "Could not sign in. Try again later."
+      }
+    },
+    "captcha": {
+      "loading": "Loading “I’m not a robot” check…",
+      "loadError": "Could not load Yandex SmartCaptcha"
+    }
+  },
+  "cabinet": {
+    "subscribe": {
+      "metaTitle": "Cabinet payment",
+      "eyebrow": "Subscription",
+      "title": "Cabinet is now free",
+      "lead": "Registration and the first object are free. Only extra objects are paid.",
+      "period": "{days} days",
+      "pay": "Go to objects",
+      "paying": "…",
+      "paymentFailed": "Payment failed.",
+      "signedInAs": "Signed in as {email}",
+      "logout": "Log out",
+      "backHome": "Home",
+      "errors": {
+        "not_configured": "Payments temporarily unavailable.",
+        "unauthorized": "Sign in as an architect.",
+        "server": "Could not start payment."
+      }
+    },
+    "home": {
+      "metaTitle": "Cabinet",
+      "eyebrow": "Cabinet",
+      "welcome": "Hello, {name}",
+      "lead": "The cabinet is free. First object is free. Next ones are {price} RUB / {months} months (10 GB). Renewal is {renew} RUB / year. Clients are unlimited.",
+      "logout": "Log out",
+      "shopLink": "Plugin shop →"
+    },
+    "objects": {
+      "createTitle": "New object",
+      "createFreeLead": "Your first object is free — full features for 12 months and 10 GB. Trial and showcase for your client.",
+      "createPaidLead": "Next object — {price} RUB. Includes {months} months of storage and {gb} GB.",
+      "titlePlaceholder": "Object / project title",
+      "createFree": "Create for free",
+      "payAndCreate": "Pay {price} RUB and create",
+      "working": "Working…",
+      "listTitle": "My objects",
+      "empty": "No objects yet. Create the first one for free.",
+      "badgeFree": "trial",
+      "badgePaid": "paid",
+      "until": "until {date}",
+      "storage": "{used} / {limit} GB",
+      "open": "Open",
+      "renew": "Renew",
+      "renewEarly": "Renew early",
+      "justPaid": "Payment received — object is ready.",
+      "paymentFailed": "Payment failed. Try again.",
+      "lifecycle": {
+        "ACTIVE": "active",
+        "READ_ONLY": "read-only",
+        "PENDING_DELETE": "pending delete",
+        "DELETED": "deleted"
+      },
+      "errors": {
+        "validation": "Enter a title.",
+        "payment_required": "Payment required for a new object.",
+        "unauthorized": "Please sign in.",
+        "server": "Something went wrong.",
+        "not_configured": "Payments unavailable.",
+        "use_free_create": "Create the free object first.",
+        "not_found": "Object not found."
+      }
+    },
+    "objectDetail": {
+      "metaTitle": "Object",
+      "back": "← Back to objects",
+      "logout": "Log out",
+      "status": "{lifecycle} · access: {access} · paid until {date}",
+      "readOnlyNotice": "Storage period ended: object is read-only. Renew to upload again. You can still download your archive.",
+      "tabsSoon": "Coming soon — photos, panoramas, documents, files, and chat.",
+      "storage": "Storage: {used} / {limit} GB",
+      "lifecycle": {
+        "ACTIVE": "active",
+        "READ_ONLY": "read-only",
+        "PENDING_DELETE": "pending delete",
+        "DELETED": "deleted"
+      },
+      "access": {
+        "full": "full",
+        "read_only": "read-only",
+        "gone": "gone"
+      },
+      "tabs": {
+        "photos": "Photos",
+        "panoramas": "Panoramas",
+        "documents": "Documents",
+        "files": "Files",
+        "messages": "Messages",
+        "clients": "Client"
+      }
+    }
   }
 }

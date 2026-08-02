@@ -1,0 +1,176 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  ADMIN
+  ARCHITECT
+  CLIENT
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum SubscriptionStatus {
+  PENDING
+  ACTIVE
+  EXPIRED
+  CANCELED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+}
+
+enum ObjectLifecycle {
+  ACTIVE
+  READ_ONLY
+  PENDING_DELETE
+  DELETED
+}
+
+enum ObjectInvoiceKind {
+  NEW_OBJECT
+  RENEWAL
+}
+
+enum OtpPurpose {
+  LOGIN
+  REGISTER
+}
+
+model User {
+  id           String     @id @default(cuid())
+  email        String     @unique
+  passwordHash String
+  name         String?
+  phone        String?
+  role         UserRole   @default(ARCHITECT)
+  status       UserStatus @default(ACTIVE)
+  architectId  String?
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  lastLoginAt  DateTime?
+
+  architect            User?                 @relation("ArchitectClients", fields: [architectId], references: [id], onDelete: SetNull)
+  clients              User[]                @relation("ArchitectClients")
+  subscription         Subscription?
+  subscriptionInvoices SubscriptionInvoice[]
+  ownedObjects         ProjectObject[]       @relation("ArchitectObjects")
+  clientObjects        ProjectObject[]       @relation("ClientObjects")
+  objectInvoices       ObjectInvoice[]
+
+  @@index([architectId])
+  @@map("users")
+}
+
+model Subscription {
+  id        String             @id @default(cuid())
+  userId    String             @unique
+  status    SubscriptionStatus @default(PENDING)
+  paidUntil DateTime?
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("subscriptions")
+}
+
+model SubscriptionInvoice {
+  id        String        @id @default(cuid())
+  invId     Int           @unique
+  userId    String
+  amount    Float
+  currency  String        @default("RUB")
+  status    PaymentStatus @default(PENDING)
+  isTest    Boolean       @default(false)
+  createdAt DateTime      @default(now())
+  paidAt    DateTime?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("subscription_invoices")
+}
+
+model ProjectObject {
+  id               String          @id @default(cuid())
+  architectId      String
+  clientId         String?
+  title            String
+  description      String?
+  address          String?
+  lifecycle        ObjectLifecycle @default(ACTIVE)
+  isFreeTrial      Boolean         @default(false)
+  storageLimitBytes BigInt
+  storageUsedBytes BigInt          @default(0)
+  paidUntil        DateTime
+  readOnlyAt       DateTime?
+  deleteAt         DateTime?
+  deleteWarnAt     DateTime?
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+
+  architect User            @relation("ArchitectObjects", fields: [architectId], references: [id], onDelete: Cascade)
+  client    User?           @relation("ClientObjects", fields: [clientId], references: [id], onDelete: SetNull)
+  invoices  ObjectInvoice[]
+
+  @@index([architectId])
+  @@index([clientId])
+  @@index([paidUntil])
+  @@map("objects")
+}
+
+model ObjectInvoice {
+  id        String           @id @default(cuid())
+  invId     Int              @unique
+  userId    String
+  objectId  String?
+  kind      ObjectInvoiceKind
+  title     String?
+  amount    Float
+  currency  String           @default("RUB")
+  status    PaymentStatus    @default(PENDING)
+  isTest    Boolean          @default(false)
+  createdAt DateTime         @default(now())
+  paidAt    DateTime?
+
+  user   User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  object ProjectObject? @relation(fields: [objectId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([objectId])
+  @@map("object_invoices")
+}
+
+model InvoiceSequence {
+  id        Int @id @default(1)
+  nextInvId Int @default(900000001)
+
+  @@map("invoice_sequences")
+}
+
+model EmailOtp {
+  id          String     @id @default(cuid())
+  email       String
+  purpose     OtpPurpose
+  codeHash    String
+  payloadJson String?
+  expiresAt   DateTime
+  consumedAt  DateTime?
+  createdAt   DateTime   @default(now())
+
+  @@index([email, purpose])
+  @@index([expiresAt])
+  @@map("email_otps")
+}

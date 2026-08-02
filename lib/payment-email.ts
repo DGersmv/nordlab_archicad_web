@@ -95,3 +95,37 @@ export async function sendLicenseEmail(input: {
 export function canSendLicenseEmail(): boolean {
   return isSmtpConfigured()
 }
+
+export async function sendVerificationCodeEmail(input: {
+  email: string
+  code: string
+  locale?: 'ru' | 'en'
+}): Promise<void> {
+  if (!isSmtpConfigured()) {
+    throw new Error('SMTP not configured')
+  }
+
+  const isRu = input.locale !== 'en'
+  const subject = isRu ? 'Nordlab — код подтверждения' : 'Nordlab — verification code'
+  const text = isRu
+    ? [
+        'Код для входа в кабинет Nordlab:',
+        '',
+        input.code,
+        '',
+        'Код действует несколько минут. Если вы не запрашивали вход — просто проигнорируйте письмо.',
+        '',
+        'Nordlab · admin@nordlab.net',
+      ].join('\n')
+    : [
+        'Your Nordlab cabinet verification code:',
+        '',
+        input.code,
+        '',
+        'This code expires in a few minutes. If you did not request it, ignore this email.',
+        '',
+        'Nordlab · admin@nordlab.net',
+      ].join('\n')
+
+  await sendEmail(input.email, subject, text)
+}

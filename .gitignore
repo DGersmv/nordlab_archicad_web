@@ -7,3 +7,5 @@ dist
 .env.local
 data/
 .DS_Store
+
+/lib/generated/prisma

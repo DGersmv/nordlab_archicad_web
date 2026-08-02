@@ -7,6 +7,7 @@ const navItems = [
   { key: 'plugins', href: '/#plugins' as const },
   { key: 'download', href: '/download' as const },
   { key: 'shop', href: '/shop' as const },
+  { key: 'cabinet', href: '/cabinet' as const },
   { key: 'manufacturers', href: '/for-manufacturers' as const },
   { key: 'custom', href: '/custom' as const },
   { key: 'about', href: '/about' as const },
@@ -39,6 +40,12 @@ export default function Header() {
         </nav>
 
         <div className="ml-auto flex items-center gap-3">
+          <Link
+            href="/login"
+            className="hidden text-sm text-graphite no-underline transition-colors duration-150 hover:text-pen sm:inline"
+          >
+            {t('login')}
+          </Link>
           <Link
             href={pathname}
             locale={otherLocale}

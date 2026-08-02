@@ -43,12 +43,12 @@ type CloudPaymentsWidget = {
   ) => void
 }
 
-declare global {
-  interface Window {
-    cp?: {
-      CloudPayments: new (options?: { language?: string }) => CloudPaymentsWidget
+function getCloudPaymentsApi() {
+  return (
+    window as unknown as {
+      cp?: { CloudPayments: new (options?: { language?: string }) => CloudPaymentsWidget }
     }
-  }
+  ).cp
 }
 
 const WIDGET_SCRIPT_ID = 'cloudpayments-widget'
@@ -56,7 +56,7 @@ const WIDGET_SCRIPT_SRC = 'https://widget.cloudpayments.ru/bundles/cloudpayments
 
 function loadCloudPaymentsScript(): Promise<void> {
   if (typeof window === 'undefined') return Promise.resolve()
-  if (window.cp?.CloudPayments) return Promise.resolve()
+  if (getCloudPaymentsApi()?.CloudPayments) return Promise.resolve()
 
   const existing = document.getElementById(WIDGET_SCRIPT_ID) as HTMLScriptElement | null
   if (existing) {
@@ -133,7 +133,7 @@ export default function CloudPaymentsPayForm({
       }
 
       await loadCloudPaymentsScript()
-      const Widget = window.cp?.CloudPayments
+      const Widget = getCloudPaymentsApi()?.CloudPayments
       if (!Widget) {
         setErrorCode('server')
         setLoading(false)
